@@ -16,11 +16,11 @@ export default function HomeReiwvs() {
                     <div className="flex justify-between mb-4">
                         <h2 className='text-[#222222] font-bold text-xl'>Алексей</h2>
                         <div className="flex">
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
                         </div>
                     </div>
                     <p className='mb-4 text-[#888888] text-sm'>2 декабря 2025</p>
@@ -31,11 +31,11 @@ export default function HomeReiwvs() {
                     <div className="flex justify-between mb-4">
                         <h2 className='text-[#222222] font-bold text-xl'>Алексей</h2>
                         <div className="flex">
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
                         </div>
                     </div>
                     <p className='mb-4 text-[#888888] text-sm'>2 декабря 2025</p>
@@ -46,11 +46,11 @@ export default function HomeReiwvs() {
                     <div className="flex justify-between mb-4">
                         <h2 className='text-[#222222] font-bold text-xl'>Алексей</h2>
                         <div className="flex">
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
-                            <Image src={'/icons/star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
+                            <Image src={'/icons/Star.svg'} alt="Star" width={20} height={20} />
                         </div>
                     </div>
                     <p className='mb-4 text-[#888888] text-sm'>2 декабря 2025</p>
