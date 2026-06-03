@@ -1,55 +1,83 @@
+'use client'
+
 import Image from 'next/image'
-import React from 'react'
+import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import NewsCard from '@/components/news-card'
+
+const API = 'https://admin.geniusstorerf.ru/api'
 
 export default function HomeNews() {
+    const [news, setNews] = useState([])
+
+    useEffect(() => {
+        let cancelled = false
+        async function load() {
+            try {
+                const res = await fetch(`${API}/news/all/1/100`)
+                const data = res.ok ? await res.json() : {}
+                if (!cancelled) setNews(data.data || [])
+            } catch {
+                if (!cancelled) setNews([])
+            }
+        }
+        load()
+        return () => {
+            cancelled = true
+        }
+    }, [])
+
+    // Hide the whole block until there is something to show
+    if (news.length === 0) return null
+
     return (
-        <div className='md:w-360 mx-auto'>
-            <div className="flex justify-between items-center">
-                <h2 className='text-[#222222] font-bold text-[50px]'>Новости</h2>
-                <button className='bg-[#D4A63A] w-50 h-15 rounded-[20px] text-[#222222] flex items-center justify-center'>
-                    <p className='text-lg font-semibold'>Все новости</p>
-                    <Image src={'/icons/arrow-narrow-right.svg'} alt="Logo" width={24} height={24} className='ml-2.5' />
-                </button>
-            </div>
-            <div className="grid grid-cols-4 gap-6 mb-6 mt-8">
-                <div className="rounded-[20px] bg-white">
-                    <Image src={'/imgs/news.png'} alt="News Image" width={355} height={200} className='object-cover rounded-t-[20px]' />
-                    <div className="flex justify-between px-4 mt-4">
-                        <h2 className='text-[#222222] font-bold text-xl h-[54px] overflow-hidden line-clamp-2'>Новый iPhone уже в продаже</h2>
-                    </div>
-                    <p className='text-[#444444] leading-[120%] mb-4 px-4'>23.02.2026</p>
-                </div>
-                <div className="rounded-[20px] bg-white">
-                    <Image src={'/imgs/news.png'} alt="News Image" width={355} height={200} className='object-cover rounded-t-[20px]' />
-                    <div className="flex justify-between px-4 mt-4">
-                        <h2 className='text-[#222222] font-bold text-xl h-[54px] overflow-hidden line-clamp-2'>Новый iPhone уже в продаже</h2>
-                    </div>
-                    <p className='text-[#444444] leading-[120%] mb-4 px-4'>23.02.2026</p>
-                </div>
-                <div className="rounded-[20px] bg-white">
-                    <Image src={'/imgs/news.png'} alt="News Image" width={355} height={200} className='object-cover rounded-t-[20px]' />
-                    <div className="flex justify-between px-4 mt-4">
-                        <h2 className='text-[#222222] font-bold text-xl h-[54px] overflow-hidden line-clamp-2'>Новый iPhone уже в продаже</h2>
-                    </div>
-                    <p className='text-[#444444] leading-[120%] mb-4 px-4'>23.02.2026</p>
-                </div>
-                <div className="rounded-[20px] bg-white">
-                    <Image src={'/imgs/news.png'} alt="News Image" width={355} height={200} className='object-cover rounded-t-[20px]' />
-                    <div className="flex justify-between px-4 mt-4">
-                        <h2 className='text-[#222222] font-bold text-xl h-[54px] overflow-hidden line-clamp-2'>Новый iPhone уже в продаже</h2>
-                    </div>
-                    <p className='text-[#444444] leading-[120%] mb-4 px-4'>23.02.2026</p>
-                </div>
-
-
-                <div className="col-span-4 flex justify-center gap-x-2">
-                    <div className='bg-[#D4A63A] h-2.5 w-10 rounded-sm'></div>
-                    <div className='bg-[#FFFFFF] h-2.5 w-2.5 rounded-sm'></div>
-                    <div className='bg-[#FFFFFF] h-2.5 w-2.5 rounded-sm'></div>
-                    <div className='bg-[#FFFFFF] h-2.5 w-2.5 rounded-sm'></div>
-                </div>
+        <div className="px-4 lg:px-0 lg:w-360 mx-auto mb-20">
+            <div className="flex flex-wrap gap-4 justify-between items-center mb-6 lg:mb-8">
+                <h2 className="text-[#222222] font-bold text-[32px] sm:text-[40px] lg:text-[50px]">
+                    Новости
+                </h2>
+                <Link
+                    href="/news"
+                    className="bg-[#D4A63A] px-6 h-12 lg:h-15 rounded-[20px] text-[#222222] flex items-center justify-center hover:brightness-95 active:brightness-90 transition"
+                >
+                    <p className="text-base lg:text-lg font-semibold">Все новости</p>
+                    <Image
+                        src="/icons/arrow-narrow-right.svg"
+                        alt=""
+                        width={24}
+                        height={24}
+                        className="ml-2.5"
+                    />
+                </Link>
             </div>
 
+            <Swiper
+                modules={[Pagination]}
+                spaceBetween={24}
+                slidesPerView={1.2}
+                breakpoints={{
+                    640: { slidesPerView: 2, spaceBetween: 16 },
+                    1024: { slidesPerView: 3, spaceBetween: 24 },
+                    1280: { slidesPerView: 4, spaceBetween: 24 },
+                }}
+                pagination={{
+                    clickable: true,
+                    bulletClass:
+                        'inline-block h-2.5 w-2.5 rounded-sm bg-white mx-1 cursor-pointer transition-all duration-200',
+                    bulletActiveClass: '!w-10 !bg-[#D4A63A]',
+                }}
+                className="!pb-12"
+            >
+                {news.map((item) => (
+                    <SwiperSlide key={item.id} className="h-auto">
+                        <NewsCard news={item} />
+                    </SwiperSlide>
+                ))}
+            </Swiper>
         </div>
     )
 }

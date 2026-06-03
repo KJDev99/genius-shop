@@ -1,86 +1,77 @@
+'use client'
+
 import Image from 'next/image'
-import React from 'react'
+import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import ProductCard from '@/components/product-card'
+
+const API = 'https://admin.geniusstorerf.ru/api'
 
 export default function HeroBest() {
+    const [products, setProducts] = useState([])
+
+    useEffect(() => {
+        let cancelled = false
+        async function load() {
+            try {
+                const res = await fetch(`${API}/filtr/best-offers`)
+                const data = res.ok ? await res.json() : {}
+                // "Хиты продаж" → hits (fallback to sales)
+                const list = data.hits?.length ? data.hits : data.sales || []
+                if (!cancelled) setProducts(list)
+            } catch {
+                if (!cancelled) setProducts([])
+            }
+        }
+        load()
+        return () => {
+            cancelled = true
+        }
+    }, [])
+
+    if (products.length === 0) return null
+
     return (
-        <div className='md:w-360 mx-auto mb-20'>
-            <h2 className='text-[#222222] font-bold text-[50px] mb-8'>Хиты продаж</h2>
-            <div className="grid grid-cols-4 gap-6">
-                <div className="bg-white rounded-[20px] p-4 relative">
-                    <Image src={'/icons/heartpr.svg'} alt="Heart" width={42} height={42} className="absolute top-4 right-4" />
-                    <Image src={'/imgs/product.png'} alt="Best 1" width={300} height={300} />
-                    <div className="flex justify-center gap-x-2 mt-2">
-                        <div className="h-0.5 w-4 rounded-[2px] bg-[#D4A63A]"></div>
-                        <div className="h-0.5 w-4 rounded-[2px] bg-[#F4F4FA]"></div>
-                        <div className="h-0.5 w-4 rounded-[2px] bg-[#F4F4FA]"></div>
-                    </div>
-                    <h3 className='text-[#222222] text-lg font-medium mt-4'>Apple iPhone 17 256Gb Black eSim</h3>
-                    <div className="flex justify-between items-center mt-4">
-                        <span className='text-[#D4A63A] text-[28px] font-bold'>63 299 ₽</span>
-                        <button className='bg-[#D4A63A] font-medium text-[#222222] px-4 py-2 rounded-[20px]'>
-                            <Image src={'/icons/cart.svg'} alt="Cart" width={24} height={24} className='inline-block mr-2' />
-                            В корзину
-                        </button>
-                    </div>
-                </div>
-                <div className="bg-white rounded-[20px] p-4 relative">
-                    <Image src={'/icons/heartpr.svg'} alt="Heart" width={42} height={42} className="absolute top-4 right-4" />
-                    <Image src={'/imgs/product.png'} alt="Best 1" width={300} height={300} />
-                    <div className="flex justify-center gap-x-2 mt-2">
-                        <div className="h-0.5 w-4 rounded-[2px] bg-[#D4A63A]"></div>
-                        <div className="h-0.5 w-4 rounded-[2px] bg-[#F4F4FA]"></div>
-                        <div className="h-0.5 w-4 rounded-[2px] bg-[#F4F4FA]"></div>
-                    </div>
-                    <h3 className='text-[#222222] text-lg font-medium mt-4'>Apple iPhone 17 256Gb Black eSim</h3>
-                    <div className="flex justify-between items-center mt-4">
-                        <span className='text-[#D4A63A] text-[28px] font-bold'>63 299 ₽</span>
-                        <button className='bg-[#D4A63A] font-medium text-[#222222] px-4 py-2 rounded-[20px]'>
-                            <Image src={'/icons/cart.svg'} alt="Cart" width={24} height={24} className='inline-block mr-2' />
-                            В корзину
-                        </button>
-                    </div>
-                </div>
-                <div className="bg-white rounded-[20px] p-4 relative">
-                    <Image src={'/icons/heartpr.svg'} alt="Heart" width={42} height={42} className="absolute top-4 right-4" />
-                    <Image src={'/imgs/product.png'} alt="Best 1" width={300} height={300} />
-                    <div className="flex justify-center gap-x-2 mt-2">
-                        <div className="h-0.5 w-4 rounded-[2px] bg-[#D4A63A]"></div>
-                        <div className="h-0.5 w-4 rounded-[2px] bg-[#F4F4FA]"></div>
-                        <div className="h-0.5 w-4 rounded-[2px] bg-[#F4F4FA]"></div>
-                    </div>
-                    <h3 className='text-[#222222] text-lg font-medium mt-4'>Apple iPhone 17 256Gb Black eSim</h3>
-                    <div className="flex justify-between items-center mt-4">
-                        <span className='text-[#D4A63A] text-[28px] font-bold'>63 299 ₽</span>
-                        <button className='bg-[#D4A63A] font-medium text-[#222222] px-4 py-2 rounded-[20px]'>
-                            <Image src={'/icons/cart.svg'} alt="Cart" width={24} height={24} className='inline-block mr-2' />
-                            В корзину
-                        </button>
-                    </div>
-                </div>
-                <div className="bg-white rounded-[20px] p-4 relative">
-                    <Image src={'/icons/heartpr.svg'} alt="Heart" width={42} height={42} className="absolute top-4 right-4" />
-                    <Image src={'/imgs/product.png'} alt="Best 1" width={300} height={300} />
-                    <div className="flex justify-center gap-x-2 mt-2">
-                        <div className="h-0.5 w-4 rounded-[2px] bg-[#D4A63A]"></div>
-                        <div className="h-0.5 w-4 rounded-[2px] bg-[#F4F4FA]"></div>
-                        <div className="h-0.5 w-4 rounded-[2px] bg-[#F4F4FA]"></div>
-                    </div>
-                    <h3 className='text-[#222222] text-lg font-medium mt-4'>Apple iPhone 17 256Gb Black eSim</h3>
-                    <div className="flex justify-between items-center mt-4">
-                        <span className='text-[#D4A63A] text-[28px] font-bold'>63 299 ₽</span>
-                        <button className='bg-[#D4A63A] font-medium text-[#222222] px-4 py-2 rounded-[20px]'>
-                            <Image src={'/icons/cart.svg'} alt="Cart" width={24} height={24} className='inline-block mr-2' />
-                            В корзину
-                        </button>
-                    </div>
-                </div>
-                <div className="col-span-4 flex justify-center gap-x-2">
-                    <div className='bg-[#D4A63A] h-2.5 w-10 rounded-sm'></div>
-                    <div className='bg-[#FFFFFF] h-2.5 w-2.5 rounded-sm'></div>
-                    <div className='bg-[#FFFFFF] h-2.5 w-2.5 rounded-sm'></div>
-                    <div className='bg-[#FFFFFF] h-2.5 w-2.5 rounded-sm'></div>
-                </div>
+        <div className="px-4 lg:px-0 lg:w-360 mx-auto mb-20">
+            <div className="flex flex-wrap gap-4 justify-between items-center mb-6 lg:mb-8">
+                <h2 className="text-[#222222] font-bold text-[32px] sm:text-[40px] lg:text-[50px]">
+                    Хиты продаж
+                </h2>
+                <Link
+                    href="/catalog"
+                    className="bg-[#D4A63A] px-6 h-12 lg:h-15 rounded-[20px] text-[#222222] flex items-center justify-center hover:brightness-95 active:brightness-90 transition"
+                >
+                    <p className="text-base lg:text-lg font-semibold">Все товары</p>
+                    <Image src="/icons/arrow-narrow-right.svg" alt="" width={24} height={24} className="ml-2.5" />
+                </Link>
             </div>
+
+            <Swiper
+                modules={[Pagination]}
+                spaceBetween={24}
+                slidesPerView={1.2}
+                breakpoints={{
+                    640: { slidesPerView: 2, spaceBetween: 16 },
+                    1024: { slidesPerView: 3, spaceBetween: 24 },
+                    1280: { slidesPerView: 4, spaceBetween: 24 },
+                }}
+                pagination={{
+                    clickable: true,
+                    bulletClass: 'inline-block h-2.5 w-2.5 rounded-sm bg-white mx-1 cursor-pointer transition-all duration-200',
+                    bulletActiveClass: '!w-10 !bg-[#D4A63A]',
+                }}
+                className="!pb-12"
+            >
+                {products.map((product) => (
+                    <SwiperSlide key={product.id} className="h-auto">
+                        <ProductCard product={product} />
+                    </SwiperSlide>
+                ))}
+            </Swiper>
         </div>
     )
 }

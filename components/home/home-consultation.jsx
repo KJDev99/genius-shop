@@ -1,16 +1,26 @@
-import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 export default function HomeConsultation() {
     return (
-        <div className='mt-6 mb-20'>
-            <div className='md:w-360 mx-auto  rounded-[20px] bg-white flex items-center bg-[url(/imgs/consultation.png)] h-[400px] bg-cover bg-center'>
-                <div className='flex flex-col items-center w-full'>
-                    <h2 className='text-[50px] font-semibold text-white'>Не знаете, какую модель выбрать?</h2>
-                    <p className='text-white font-medium text-[20px] mb-6'>Наши специалисты помогут подобрать идеальное устройство.</p>
-                    <button className='bg-[#FFFFFF] w-[300px] h-[60px] rounded-[20px] text-[#222222] flex items-center justify-center '>
-                        <p className='text-lg font-semibold'>Получить консультацию</p>
-                    </button>
+        <div className="px-4 lg:px-0 mt-6 mb-20">
+            <div
+                className="lg:w-360 mx-auto rounded-[20px] bg-white flex items-center bg-cover bg-center h-[320px] sm:h-[360px] lg:h-[400px]"
+                style={{ backgroundImage: 'url(/imgs/consultation.png)' }}
+            >
+                <div className="flex flex-col items-center w-full px-4 text-center">
+                    <h2 className="text-[28px] sm:text-[40px] lg:text-[50px] font-semibold text-white leading-tight">
+                        Не знаете, какую модель выбрать?
+                    </h2>
+                    <p className="text-white font-medium text-base lg:text-[20px] mt-3 mb-6">
+                        Наши специалисты помогут подобрать идеальное устройство.
+                    </p>
+                    <Link
+                        href="/contact"
+                        className="bg-white w-[260px] lg:w-[300px] h-[52px] lg:h-[60px] rounded-[20px] text-[#222222] flex items-center justify-center hover:bg-[#D4A63A] transition-colors duration-200"
+                    >
+                        <p className="text-base lg:text-lg font-semibold">Получить консультацию</p>
+                    </Link>
                 </div>
             </div>
         </div>
