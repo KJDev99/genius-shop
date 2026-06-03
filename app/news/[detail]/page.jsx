@@ -54,7 +54,7 @@ export default function NewsDetailPage() {
     // ── Loading ──
     if (loading) {
         return (
-            <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-20 mt-4">
+            <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-20 max-md:w-full mt-4">
                 <div className="bg-white rounded-[20px] p-6 lg:p-10 animate-pulse">
                     <div className="h-8 bg-[#F4F4FA] rounded w-2/3 mb-4" />
                     <div className="h-4 bg-[#F4F4FA] rounded w-24 mb-6" />
@@ -70,7 +70,7 @@ export default function NewsDetailPage() {
     // ── Error / not found ──
     if (error || !article) {
         return (
-            <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-20">
+            <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-20 max-md:w-full">
                 <div className="flex flex-col items-center justify-center py-32 text-center">
                     <p className="text-[#444444] text-lg mb-4">Новость не найдена.</p>
                     <Link
@@ -87,7 +87,7 @@ export default function NewsDetailPage() {
     const steps = article.blogSteps || []
 
     return (
-        <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-20">
+        <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-20 max-md:w-full">
             {/* Breadcrumb */}
             <div className="mb-4 overflow-x-auto pb-1">
                 <Breadcrumb
@@ -101,69 +101,69 @@ export default function NewsDetailPage() {
 
             {/* Two columns: article + "Другие новости" sidebar */}
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_400px] gap-6 items-start">
-            {/* Article */}
-            <article className="bg-white rounded-[20px] p-5 sm:p-6 lg:p-10">
-                <h1 className="text-[#222222] font-bold text-[28px] sm:text-[36px] lg:text-[44px] leading-tight mb-3">
-                    {article.title}
-                </h1>
-                <p className="text-[#888888] text-sm lg:text-base mb-6">
-                    {formatNewsDate(article.createdAt)}
-                </p>
-
-                {article.image && (
-                    <div className="relative w-full aspect-[16/8] rounded-[20px] overflow-hidden mb-6 bg-[#F4F4FA]">
-                        <Image
-                            src={article.image}
-                            alt={article.title}
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 1440px"
-                            className="object-cover"
-                            priority
-                            unoptimized
-                        />
-                    </div>
-                )}
-
-                {article.content && (
-                    <p className="text-[#444444] text-base lg:text-lg leading-[160%] whitespace-pre-line mb-6">
-                        {article.content}
+                {/* Article */}
+                <article className="bg-white rounded-[20px] p-5 sm:p-6 lg:p-10">
+                    <h1 className="text-[#222222] font-bold text-[28px] sm:text-[36px] lg:text-[44px] leading-tight mb-3">
+                        {article.title}
+                    </h1>
+                    <p className="text-[#888888] text-sm lg:text-base mb-6">
+                        {formatNewsDate(article.createdAt)}
                     </p>
-                )}
 
-                {/* Steps */}
-                {steps.length > 0 && (
-                    <div className="flex flex-col gap-6">
-                        {steps.map((step) => (
-                            <div key={step.id}>
-                                {step.title && (
-                                    <h2 className="text-[#222222] font-bold text-[20px] lg:text-[24px] mb-2">
-                                        {step.title}
-                                    </h2>
-                                )}
-                                {step.content && (
-                                    <p className="text-[#444444] text-base lg:text-lg leading-[160%] whitespace-pre-line">
-                                        {step.content}
-                                    </p>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </article>
+                    {article.image && (
+                        <div className="relative w-full aspect-[16/8] rounded-[20px] overflow-hidden mb-6 bg-[#F4F4FA]">
+                            <Image
+                                src={article.image}
+                                alt={article.title}
+                                fill
+                                sizes="(max-width: 1024px) 100vw, 1440px"
+                                className="object-cover"
+                                priority
+                                unoptimized
+                            />
+                        </div>
+                    )}
 
-            {/* Другие новости — sidebar */}
-            {others.length > 0 && (
-                <aside className="lg:sticky lg:top-6">
-                    <h2 className="text-[#222222] font-bold text-[22px] lg:text-[28px] mb-4">
-                        Другие новости
-                    </h2>
-                    <div className="flex flex-col gap-3">
-                        {others.map((item) => (
-                            <NewsCardSmall key={item.id} news={item} />
-                        ))}
-                    </div>
-                </aside>
-            )}
+                    {article.content && (
+                        <p className="text-[#444444] text-base lg:text-lg leading-[160%] whitespace-pre-line mb-6">
+                            {article.content}
+                        </p>
+                    )}
+
+                    {/* Steps */}
+                    {steps.length > 0 && (
+                        <div className="flex flex-col gap-6">
+                            {steps.map((step) => (
+                                <div key={step.id}>
+                                    {step.title && (
+                                        <h2 className="text-[#222222] font-bold text-[20px] lg:text-[24px] mb-2">
+                                            {step.title}
+                                        </h2>
+                                    )}
+                                    {step.content && (
+                                        <p className="text-[#444444] text-base lg:text-lg leading-[160%] whitespace-pre-line">
+                                            {step.content}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </article>
+
+                {/* Другие новости — sidebar */}
+                {others.length > 0 && (
+                    <aside className="lg:sticky lg:top-6">
+                        <h2 className="text-[#222222] font-bold text-[22px] lg:text-[28px] mb-4">
+                            Другие новости
+                        </h2>
+                        <div className="flex flex-col gap-3">
+                            {others.map((item) => (
+                                <NewsCardSmall key={item.id} news={item} />
+                            ))}
+                        </div>
+                    </aside>
+                )}
             </div>
         </main>
     )

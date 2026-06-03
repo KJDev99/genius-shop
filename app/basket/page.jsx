@@ -241,7 +241,7 @@ export default function BasketPage() {
     const selectedItems = items.filter((i) => selected.has(i.id))
 
     return (
-        <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-20">
+        <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-20 max-md:w-full">
             {/* Breadcrumb */}
             <div className="mb-4">
                 <Breadcrumb

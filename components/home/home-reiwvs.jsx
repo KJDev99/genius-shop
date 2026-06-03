@@ -34,7 +34,7 @@ export default function HomeReiwvs() {
     if (reviews.length === 0) return null
 
     return (
-        <div className="px-4 lg:px-0 lg:w-360 mx-auto mb-20">
+        <div className="px-4 lg:px-0 lg:w-360 mx-auto mb-20 max-md:w-full">
             <div className="flex flex-wrap gap-4 justify-between items-center mb-6 lg:mb-8">
                 <h2 className="text-[#222222] font-bold text-[32px] sm:text-[40px] lg:text-[50px]">
                     Отзывы о нас

@@ -680,7 +680,7 @@ export default function ProductPage() {
     // ── Loading ──
     if (loading) {
         return (
-            <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-20">
+            <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-20 max-md:w-full">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-6 mt-4">
                     <div className="bg-white rounded-[20px] aspect-square lg:h-[528px] animate-pulse" />
                     <div className="bg-white rounded-[20px] h-[400px] lg:h-[528px] animate-pulse" />
@@ -693,7 +693,7 @@ export default function ProductPage() {
     // ── Error / not found ──
     if (error || !product) {
         return (
-            <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-20">
+            <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-20 max-md:w-full">
                 <div className="flex flex-col items-center justify-center py-32 text-center">
                     <p className="text-[#444444] text-lg mb-4">
                         {error || 'Товар не найден.'}
@@ -711,72 +711,72 @@ export default function ProductPage() {
 
     return (
         <>
-        <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-12">
-            {/* Breadcrumb */}
-            <div className="mb-4 overflow-x-auto pb-1">
-                <Breadcrumb
-                    items={[
-                        { name: 'Главная', href: '/' },
-                        { name: 'Каталог', href: '/catalog' },
-                        ...(product.category
-                            ? [
-                                {
-                                    name: product.category.name,
-                                    href: `/catalog/${product.category.slug}`,
-                                },
-                            ]
-                            : []),
-                        { name: product.title },
-                    ]}
-                />
-            </div>
-
-            {/* Top section: Gallery + Info */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-6">
-                <ImageGallery key={selectedVariant?.id} images={images} />
-                <InfoCard
-                    product={product}
-                    selectedVariant={selectedVariant}
-                    onSelectVariant={setSelectedVariant}
-                />
-            </div>
-
-            {/* Tabs section */}
-            <div className="bg-white rounded-[20px] p-4 lg:p-8">
-                {/* Tab buttons (horizontal scroll on mobile) */}
-                <div className="flex gap-2 mb-6 overflow-x-auto -mx-2 px-2 pb-1">
-                    {TABS.map((tab) => (
-                        <button
-                            key={tab.id}
-                            type="button"
-                            onClick={() => setActiveTab(tab.id)}
-                            className={`px-5 lg:px-6 py-2.5 lg:py-3 rounded-[20px] text-sm lg:text-base font-medium whitespace-nowrap transition-colors duration-150 shrink-0 ${activeTab === tab.id
-                                ? 'bg-[#D4A63A] text-[#222222] font-semibold'
-                                : 'text-[#444444] hover:bg-[#F4F4FA]'
-                                }`}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
+            <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-12">
+                {/* Breadcrumb */}
+                <div className="mb-4 overflow-x-auto pb-1">
+                    <Breadcrumb
+                        items={[
+                            { name: 'Главная', href: '/' },
+                            { name: 'Каталог', href: '/catalog' },
+                            ...(product.category
+                                ? [
+                                    {
+                                        name: product.category.name,
+                                        href: `/catalog/${product.category.slug}`,
+                                    },
+                                ]
+                                : []),
+                            { name: product.title },
+                        ]}
+                    />
                 </div>
 
-                {/* Tab content */}
-                <div className="border-t border-[#F4F4FA] pt-6">
-                    {activeTab === 'description' && (
-                        <TabDescription text={product.description} />
-                    )}
-                    {activeTab === 'specs' && <TabSpecs specs={specs} />}
-                    {activeTab === 'payment' && <TabPayment />}
-                    {activeTab === 'delivery' && <TabDelivery />}
+                {/* Top section: Gallery + Info */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-6">
+                    <ImageGallery key={selectedVariant?.id} images={images} />
+                    <InfoCard
+                        product={product}
+                        selectedVariant={selectedVariant}
+                        onSelectVariant={setSelectedVariant}
+                    />
                 </div>
-            </div>
-        </main>
 
-        {/* С этим товаром покупают */}
-        <RelatedProducts slug={slug} />
+                {/* Tabs section */}
+                <div className="bg-white rounded-[20px] p-4 lg:p-8">
+                    {/* Tab buttons (horizontal scroll on mobile) */}
+                    <div className="flex gap-2 mb-6 overflow-x-auto -mx-2 px-2 pb-1">
+                        {TABS.map((tab) => (
+                            <button
+                                key={tab.id}
+                                type="button"
+                                onClick={() => setActiveTab(tab.id)}
+                                className={`px-5 lg:px-6 py-2.5 lg:py-3 rounded-[20px] text-sm lg:text-base font-medium whitespace-nowrap transition-colors duration-150 shrink-0 ${activeTab === tab.id
+                                    ? 'bg-[#D4A63A] text-[#222222] font-semibold'
+                                    : 'text-[#444444] hover:bg-[#F4F4FA]'
+                                    }`}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
 
-        {/* Consultation banner */}
-        <HomeConsultation />
+                    {/* Tab content */}
+                    <div className="border-t border-[#F4F4FA] pt-6">
+                        {activeTab === 'description' && (
+                            <TabDescription text={product.description} />
+                        )}
+                        {activeTab === 'specs' && <TabSpecs specs={specs} />}
+                        {activeTab === 'payment' && <TabPayment />}
+                        {activeTab === 'delivery' && <TabDelivery />}
+                    </div>
+                </div>
+            </main>
+
+            {/* С этим товаром покупают */}
+            <RelatedProducts slug={slug} />
+
+            {/* Consultation banner */}
+            <HomeConsultation />
         </>
     )
 }
