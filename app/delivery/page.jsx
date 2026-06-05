@@ -214,6 +214,7 @@ export default function DeliveryPage() {
                         unoptimized
                         sizes="100vw"
                         className="object-cover lg:hidden"
+                        quality={100}
                     />
                     <Image
                         src={HERO_DESKTOP}
@@ -223,13 +224,14 @@ export default function DeliveryPage() {
                         unoptimized
                         sizes="(max-width: 1024px) 100vw, 1440px"
                         className="object-cover hidden lg:block"
+                        quality={100}
                     />
                     {/* градиент 90deg как в макете: слева насыщенный, справа прозрачный */}
-                    <div className="relative z-10 h-full flex flex-col justify-center p-6 sm:p-10 lg:p-16 max-w-[760px]">
-                        <h1 className="text-white font-semibold text-[36px] sm:text-[48px] lg:text-[64px] leading-tight mb-3">
+                    <div className="relative z-10 h-full flex flex-col max-md:text-center md:justify-center p-6 sm:p-10 lg:p-16 ">
+                        <h1 className="text-white font-semibold text-[26px] sm:text-[48px] lg:text-[64px] leading-tight mb-3">
                             Быстрая доставка техники
                         </h1>
-                        <p className="text-white/90 text-lg lg:text-2xl font-medium max-w-[560px]">
+                        <p className="text-white/90 text-base lg:text-2xl font-medium ">
                             Привезём ваш заказ в удобное время прямо к двери.
                         </p>
                     </div>

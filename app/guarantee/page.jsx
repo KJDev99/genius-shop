@@ -104,6 +104,7 @@ export default function GuaranteePage() {
                         unoptimized
                         sizes="100vw"
                         className="object-cover lg:hidden"
+                        quality={100}
                     />
                     <Image
                         src={HERO_DESKTOP}
@@ -113,13 +114,13 @@ export default function GuaranteePage() {
                         unoptimized
                         sizes="(max-width: 1024px) 100vw, 1440px"
                         className="object-cover hidden lg:block"
+                        quality={100}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-black/55 via-black/25 to-transparent" />
-                    <div className="relative z-10 h-full flex flex-col justify-end lg:justify-center p-6 sm:p-10 lg:p-16 max-w-[760px]">
-                        <h1 className="text-white font-bold text-[32px] sm:text-[44px] lg:text-[56px] leading-tight mb-3">
+                    <div className="relative z-10 h-full flex flex-col max-md:text-center md:justify-center p-6 sm:p-10 lg:p-16 ">
+                        <h1 className="text-white font-semibold text-[26px] sm:text-[48px] lg:text-[64px] leading-tight mb-3">
                             Гарантия на всю технику
                         </h1>
-                        <p className="text-white/90 text-base sm:text-lg lg:text-2xl font-medium max-w-[520px]">
+                        <p className="text-white/90 text-base lg:text-2xl font-medium ">
                             Только оригинальные устройства и официальная проверка перед
                             продажей.
                         </p>

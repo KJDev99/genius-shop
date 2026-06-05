@@ -78,18 +78,18 @@ export default function TradeInPage() {
                         className="object-cover hidden lg:block"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-black/55 via-black/25 to-transparent" />
-                    <div className="relative z-10 h-full flex flex-col justify-end lg:justify-center p-6 sm:p-10 lg:p-16 max-w-[680px]">
-                        <h1 className="text-white font-bold text-[30px] sm:text-[40px] lg:text-[52px] leading-tight mb-3">
+                    <div className="relative z-10 h-full flex flex-col justify-center items-center p-6 sm:p-10 lg:p-16 max-w-[900px] mx-auto text-center ">
+                        <h1 className="text-white font-bold text-[30px] sm:text-[40px] lg:text-[52px] leading-tight mb-3 ">
                             Обменяйте старый iPhone на новый по выгодной цене
                         </h1>
-                        <p className="text-white/90 text-base sm:text-lg lg:text-xl font-medium mb-6 max-w-[480px]">
+                        <p className="text-white/90 text-base sm:text-lg lg:text-xl font-medium mb-6 max-w-[510px] text-center">
                             Оценим ваш iPhone за несколько минут и предложим выгодную
                             скидку на новый.
                         </p>
                         <RequestButton
                             type="tradein"
                             label="Узнать стоимость"
-                            className="self-start bg-[#D4A63A] text-[#222222] font-semibold px-8 py-3.5 rounded-[20px] hover:brightness-95 active:brightness-90 transition"
+                            className="self-center bg-[#fff] text-[#222222] font-semibold px-8 py-3.5 rounded-[20px] hover:brightness-95 active:brightness-90 transition max-md:w-full"
                         />
                     </div>
                 </section>
