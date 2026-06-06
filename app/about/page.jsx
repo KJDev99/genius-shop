@@ -3,6 +3,7 @@ import React from 'react'
 import Breadcrumb from '@/components/breadcrumb'
 import Advantages from '@/components/advantages'
 import HomeConsultation from '@/components/home/home-consultation'
+import BrandsSlider from '@/components/about/brands-slider'
 
 // ─── Hero media: разные картинки для мобилки и ПК (/public/about) ───────────────
 const HERO_MOBILE = '/about/hero-mobile.png'
@@ -75,40 +76,7 @@ export default function AboutPage() {
                 </div>
 
                 {/* Бренды */}
-                <section className="">
-                    <h2 className="text-[#222222] font-bold text-[24px] sm:text-[32px] lg:text-[40px] mb-6">
-                        Бренды
-                    </h2>
-                    <div className="grid grid-cols-3 gap-6 max-md:gap-3 max-md:flex max-md:overflow-x-auto max-md:scrollbar-hide">
-                        <div className="bg-white rounded-2xl flex items-center justify-center p-4 h-[166px] max-md:shrink-0 max-md:px-7.5 max-md:py-3 max-md:h-25">
-                            <Image
-                                src="/about/brand1.png"
-                                alt="Apple"
-                                width={200}
-                                height={100}
-                                className="object-contain max-md:w-full "
-                            />
-                        </div>
-                        <div className="bg-white rounded-2xl flex items-center justify-center p-4 h-[166px] max-md:shrink-0 max-md:px-7.5 max-md:py-3 max-md:h-25">
-                            <Image
-                                src="/about/brand2.png"
-                                alt="Apple"
-                                width={200}
-                                height={100}
-                                className="object-contain max-md:w-full "
-                            />
-                        </div>
-                        <div className="bg-white rounded-2xl flex items-center justify-center p-4 h-[166px] max-md:shrink-0 max-md:px-7.5 max-md:py-3 max-md:h-25">
-                            <Image
-                                src="/about/brnad3.png"
-                                alt="Apple"
-                                width={200}
-                                height={100}
-                                className="object-contain max-md:w-full "
-                            />
-                        </div>
-                    </div>
-                </section>
+                <BrandsSlider />
             </main>
 
             <HomeConsultation />

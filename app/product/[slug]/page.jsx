@@ -4,6 +4,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useMemo, useState } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
 import Breadcrumb from '@/components/breadcrumb'
 import RelatedProducts from '@/components/related-products'
 import HomeConsultation from '@/components/home/home-consultation'
@@ -49,9 +53,7 @@ function Tag({ label, color }) {
     const dotColor =
         color === 'green'
             ? 'bg-[#1FB876]'
-            : color === 'grey'
-                ? 'bg-[#888888]'
-                : 'bg-[#D4A63A]'
+            : 'hidden'
     const textColor =
         color === 'green'
             ? 'text-[#1FB876]'
@@ -165,35 +167,48 @@ function ImageGallery({ images }) {
                 </div>
             )}
 
-            {/* MAIN IMAGE */}
-            <div className="relative grow aspect-square lg:aspect-auto lg:h-[480px]">
+            {/* DESKTOP: main image (thumbnails switch it) */}
+            <div className="hidden lg:block relative grow lg:h-[480px]">
                 <Image
                     src={images[activeIdx]}
                     alt="Product"
                     fill
-                    sizes="(max-width: 1024px) 100vw, 480px"
+                    sizes="480px"
+                    quality={100}
                     className="object-contain"
                     priority
                 />
             </div>
 
-            {/* MOBILE: Horizontal dots */}
-            {images.length > 1 && (
-                <div className="lg:hidden flex justify-center gap-2">
-                    {images.map((_, idx) => (
-                        <button
-                            key={idx}
-                            type="button"
-                            onClick={() => setActiveIdx(idx)}
-                            className={`h-1.5 rounded-full transition-all duration-200 ${activeIdx === idx
-                                ? 'w-6 bg-[#D4A63A]'
-                                : 'w-1.5 bg-[#D4D4D4]'
-                                }`}
-                            aria-label={`Image ${idx + 1}`}
-                        />
+            {/* MOBILE: swipeable carousel with dots */}
+            <div className="lg:hidden w-full overflow-hidden">
+                <Swiper
+                    modules={[Pagination]}
+                    pagination={{
+                        clickable: true,
+                        bulletClass:
+                            'inline-block h-1.5 w-1.5 rounded-full bg-[#D4D4D4] mx-1 transition-all duration-200 cursor-pointer',
+                        bulletActiveClass: '!w-6 !bg-[#D4A63A]',
+                    }}
+                    className="!pb-8"
+                >
+                    {images.map((img, idx) => (
+                        <SwiperSlide key={idx}>
+                            <div className="relative w-full h-[320px] sm:h-[400px]">
+                                <Image
+                                    src={img}
+                                    alt={`Product ${idx + 1}`}
+                                    fill
+                                    sizes="100vw"
+                                    quality={100}
+                                    className="object-contain"
+                                    priority={idx === 0}
+                                />
+                            </div>
+                        </SwiperSlide>
                     ))}
-                </div>
-            )}
+                </Swiper>
+            </div>
         </div>
     )
 }
@@ -413,14 +428,22 @@ function InfoCard({ product, selectedVariant, onSelectVariant }) {
                 </div>
             )}
 
+            {/* Short description — fills the middle gap on desktop only */}
+            {product.description && (
+                <div className="hidden lg:flex flex-col justify-center flex-1 py-4">
+                    <h3 className="text-[#222222] font-semibold text-base mb-2">
+                        Описание
+                    </h3>
+                    <p className="text-[#888888] text-sm leading-[150%] line-clamp-3 whitespace-pre-line">
+                        {product.description}
+                    </p>
+                </div>
+            )}
+
             {/* Price + Cart + Heart */}
-            <div className="flex items-center gap-3 lg:gap-4 mt-auto pt-2">
+            <div className="flex items-center gap-3 lg:gap-4 mt-auto pt-2 ">
                 <div className="flex flex-col">
-                    {oldPrice && oldPrice > price && (
-                        <span className="text-[#AAAAAA] text-base line-through leading-tight">
-                            {formatPrice(oldPrice)}
-                        </span>
-                    )}
+
                     <span className="text-[#D4A63A] font-bold text-[28px] lg:text-[36px] whitespace-nowrap leading-tight">
                         {formatPrice(price)}
                     </span>
@@ -429,7 +452,7 @@ function InfoCard({ product, selectedVariant, onSelectVariant }) {
                     type="button"
                     onClick={handleCart}
                     disabled={!available}
-                    className={`grow font-semibold px-4 lg:px-6 py-3 lg:py-3.5 rounded-[20px] flex items-center justify-center gap-2 transition disabled:opacity-50 disabled:cursor-not-allowed ${inCart
+                    className={`md:grow max-md:ml-auto font-semibold px-4 lg:px-6 py-3.5 lg:py-4 rounded-[20px] flex items-center justify-center gap-2 transition disabled:opacity-50 disabled:cursor-not-allowed max-md:w-12 ${inCart
                         ? 'bg-[#222222] text-white hover:bg-[#333333]'
                         : 'bg-[#D4A63A] text-[#222222] hover:brightness-95 active:brightness-90'
                         } ${cartAnim ? 'scale-95' : 'scale-100'}`}
@@ -445,13 +468,13 @@ function InfoCard({ product, selectedVariant, onSelectVariant }) {
                                     strokeLinejoin="round"
                                 />
                             </svg>
-                            <span>В корзине</span>
+                            <span className="hidden sm:inline">В корзине</span>
                         </>
                     ) : (
                         <>
-                            <Image src="/icons/cart.svg" alt="" width={20} height={20} />
+                            <Image src="/icons/cart.svg" alt="" width={24} height={24} />
                             <span className="hidden sm:inline">Добавить в корзину</span>
-                            <span className="sm:hidden">В корзину</span>
+
                         </>
                     )}
                 </button>
@@ -486,7 +509,7 @@ function TabDescription({ text }) {
             <h2 className="text-[#222222] font-bold text-[24px] lg:text-[28px] mb-4">
                 Описание
             </h2>
-            <div className="text-[#444444] text-base leading-[150%] whitespace-pre-line">
+            <div className="text-[#444444] text-base leading-[150%] whitespace-pre-line break-words">
                 {text || 'Описание появится позже.'}
             </div>
         </div>
@@ -505,8 +528,8 @@ function TabSpecs({ specs }) {
                         key={key}
                         className="grid grid-cols-2 gap-4 py-3 border-b border-[#F4F4FA] last:border-b-0"
                     >
-                        <div className="text-[#888888] text-sm lg:text-base">{key}</div>
-                        <div className="text-[#222222] text-sm lg:text-base">{value}</div>
+                        <div className="min-w-0 break-words text-[#888888] text-sm lg:text-base">{key}</div>
+                        <div className="min-w-0 break-words text-[#222222] text-sm lg:text-base">{value}</div>
                     </div>
                 ))}
             </div>
@@ -711,7 +734,7 @@ export default function ProductPage() {
 
     return (
         <>
-            <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-12">
+            <main className="px-4 lg:px-0 lg:w-360 mx-auto max-md:mb-5 md:mb-12 min-w-0 max-md:w-full">
                 {/* Breadcrumb */}
                 <div className="mb-4 overflow-x-auto pb-1">
                     <Breadcrumb
@@ -742,9 +765,9 @@ export default function ProductPage() {
                 </div>
 
                 {/* Tabs section */}
-                <div className="bg-white rounded-[20px] p-4 lg:p-8">
+                <div className="bg-white rounded-[20px] p-4 lg:p-8 ">
                     {/* Tab buttons (horizontal scroll on mobile) */}
-                    <div className="flex gap-2 mb-6 overflow-x-auto -mx-2 px-2 pb-1">
+                    <div className="flex gap-2 mb-6 overflow-x-scroll pb-1  w-full min-w-0">
                         {TABS.map((tab) => (
                             <button
                                 key={tab.id}

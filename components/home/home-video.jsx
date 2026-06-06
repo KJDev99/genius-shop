@@ -41,7 +41,7 @@ export default function HomeVideo() {
                 </h2>
                 <Link
                     href="/review"
-                    className="bg-[#D4A63A] px-6 h-12 lg:h-15 rounded-[20px] text-[#222222] flex items-center justify-center hover:brightness-95 active:brightness-90 transition"
+                    className="bg-[#D4A63A] px-6 max-md:w-full h-12 lg:h-15 rounded-[20px] text-[#222222] flex items-center justify-center hover:brightness-95 active:brightness-90 transition"
                 >
                     <p className="text-base lg:text-lg font-semibold">Все отзывы</p>
                     <Image

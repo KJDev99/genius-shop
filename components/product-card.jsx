@@ -104,24 +104,7 @@ export default function ProductCard({ product }) {
 
     return (
         <div className="bg-white rounded-[20px] p-4 relative h-full flex flex-col group transition-shadow duration-200 hover:shadow-[0_4px_15.8px_0_rgba(0,0,0,0.12)]">
-            {/* Badges */}
-            <div className="absolute top-4 left-4 z-10 flex flex-col gap-1">
-                {product.isNew && (
-                    <span className="bg-[#D4A63A] text-[#222222] text-[10px] font-bold px-2 py-0.5 rounded-[8px] leading-tight">
-                        NEW
-                    </span>
-                )}
-                {product.isHit && (
-                    <span className="bg-[#222222] text-white text-[10px] font-bold px-2 py-0.5 rounded-[8px] leading-tight">
-                        HIT
-                    </span>
-                )}
-                {discount > 0 && (
-                    <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-[8px] leading-tight">
-                        -{discount}%
-                    </span>
-                )}
-            </div>
+
 
             {/* Wishlist button */}
             <button

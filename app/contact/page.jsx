@@ -13,9 +13,8 @@ const DEFAULTS = {
     email: 'info@geniusstore.ru',
     address: 'Санкт-Петербург, Невский проспект 112-114',
     social: {
-        telegram: 'https://t.me/genius_store',
-        vk: 'https://vk.com/genius_store',
-        whatsapp: 'https://wa.me/79668615242',
+        telegram: 'https://t.me/genius_store_spb',
+        vk: 'https://vk.com/storegenius',
     },
     map: { lat: 59.9343, lng: 30.3351 },
 }
@@ -68,14 +67,6 @@ function MapIcon() {
     )
 }
 
-function WhatsAppIcon() {
-    return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff">
-            <path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1112 20zm4.5-5.9c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.7.9-.1.1-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.2 1.6 2.5 3.9 3.4.5.2 1 .4 1.3.5.5.2 1 .1 1.4.1.4-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.1-.4-.2z" />
-        </svg>
-    )
-}
-
 export default function ContactPage() {
     const [settings, setSettings] = useState(DEFAULTS)
 
@@ -111,11 +102,6 @@ export default function ContactPage() {
             href: settings.social.vk,
             label: 'VK',
             icon: <Image src="/icons/vk.svg" alt="VK" width={20} height={20} />,
-        },
-        settings.social?.whatsapp && {
-            href: settings.social.whatsapp,
-            label: 'WhatsApp',
-            icon: <WhatsAppIcon />,
         },
     ].filter(Boolean)
 

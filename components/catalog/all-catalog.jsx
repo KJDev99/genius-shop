@@ -2,8 +2,12 @@ import { getData } from '@/lib/getData'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import Breadcrumb from '@/components/breadcrumb'
 
-const CATEGORY_IMAGES = {
+// Backend media bazasi (icon maydoni shu yerdan ochiladi)
+const MEDIA_BASE = 'https://admin.geniusstorerf.ru/media/'
+
+const FALLBACK_IMAGES = {
     smartfony: '/imgs/phone.png',
     planshety: '/imgs/planshet.png',
     noutbuki: '/imgs/mac.png',
@@ -12,8 +16,14 @@ const CATEGORY_IMAGES = {
     dyson: '/imgs/dyson.png',
 }
 
-function getCategoryImage(slug) {
-    return CATEGORY_IMAGES[slug] || '/imgs/phone.png'
+// Backenddan kelgan icon'dan to'liq URL quradi; icon bo'lmasa lokal fallback.
+function getCategoryImage(cat) {
+    if (cat?.icon) {
+        return cat.icon.startsWith('http')
+            ? cat.icon
+            : MEDIA_BASE + cat.icon.replace(/^\/+/, '')
+    }
+    return FALLBACK_IMAGES[cat?.slug] || '/imgs/phone.png'
 }
 
 function SmallCategoryCard({ href, title, img }) {
@@ -25,7 +35,7 @@ function SmallCategoryCard({ href, title, img }) {
             <h2 className="px-5 pt-5 text-[#222222] text-[20px] font-semibold mb-2 group-hover:text-[#D4A63A] transition-colors duration-150">
                 {title}
             </h2>
-            <div className="absolute bottom-0 right-0 w-[130px] h-[130px]">
+            <div className="absolute bottom-0 right-0 w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] p-2">
                 <Image src={img} alt={title} fill sizes="130px" className="object-contain transition-transform duration-300 group-hover:scale-105" />
             </div>
         </Link>
@@ -46,9 +56,9 @@ function CategoryCard({ href, title, img, titleSize = '32px', imgWidth = 355, im
             </h2>
             <div className="relative w-full h-[calc(100%-72px)] flex justify-center">
                 {imgFill ? (
-                    <Image src={img} alt={title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover transition-transform duration-300 group-hover:scale-105" />
+                    <Image src={img} alt={title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-contain p-5 lg:p-6 transition-transform duration-300 group-hover:scale-105" />
                 ) : (
-                    <Image src={img} alt={title} width={imgWidth} height={imgHeight} className="object-contain transition-transform duration-300 group-hover:scale-105" />
+                    <Image src={img} alt={title} width={imgWidth} height={imgHeight} className="object-contain transition-transform duration-300 group-hover:scale-105 w-full h-full p-4 lg:w-auto lg:h-auto lg:p-0" />
                 )}
             </div>
         </Link>
@@ -59,18 +69,18 @@ function BlockA({ big, top, small1, small2 }) {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 lg:h-[600px] mb-4 lg:mb-6">
             {big && (
-                <CategoryCard href={`/catalog/${big.slug}`} title={big.name} img={getCategoryImage(big.slug)} titleSize="32px" className="h-[400px] lg:h-full" imgFill />
+                <CategoryCard href={`/catalog/${big.slug}`} title={big.name} img={getCategoryImage(big)} titleSize="32px" className="h-[400px] lg:h-full" imgFill />
             )}
             <div className="flex flex-col gap-4 lg:gap-6 h-full">
                 {top && (
-                    <CategoryCard href={`/catalog/${top.slug}`} title={top.name} img={getCategoryImage(top.slug)} titleSize="32px" className="h-[260px] lg:h-[288px] shrink-0" />
+                    <CategoryCard href={`/catalog/${top.slug}`} title={top.name} img={getCategoryImage(top)} titleSize="32px" className="h-[260px] lg:h-[288px] shrink-0" />
                 )}
                 <div className="grid grid-cols-2 gap-4 lg:gap-6 flex-1">
                     {small1 && (
-                        <CategoryCard href={`/catalog/${small1.slug}`} title={small1.name} img={getCategoryImage(small1.slug)} titleSize="24px" className="h-[260px] lg:h-full" />
+                        <CategoryCard href={`/catalog/${small1.slug}`} title={small1.name} img={getCategoryImage(small1)} titleSize="24px" className="h-[260px] lg:h-full" />
                     )}
                     {small2 && (
-                        <CategoryCard href={`/catalog/${small2.slug}`} title={small2.name} img={getCategoryImage(small2.slug)} titleSize="24px" className="h-[260px] lg:h-full" imgFill />
+                        <CategoryCard href={`/catalog/${small2.slug}`} title={small2.name} img={getCategoryImage(small2)} titleSize="24px" className="h-[260px] lg:h-full" imgFill />
                     )}
                 </div>
             </div>
@@ -83,19 +93,19 @@ function BlockC({ big, top, small1, small2 }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 lg:h-[600px] mb-4 lg:mb-6">
             <div className="flex flex-col gap-4 lg:gap-6 h-full">
                 {top && (
-                    <CategoryCard href={`/catalog/${top.slug}`} title={top.name} img={getCategoryImage(top.slug)} titleSize="32px" className="h-[260px] lg:h-[288px] shrink-0" />
+                    <CategoryCard href={`/catalog/${top.slug}`} title={top.name} img={getCategoryImage(top)} titleSize="32px" className="h-[260px] lg:h-[288px] shrink-0" />
                 )}
                 <div className="grid grid-cols-2 gap-4 lg:gap-6 flex-1">
                     {small1 && (
-                        <CategoryCard href={`/catalog/${small1.slug}`} title={small1.name} img={getCategoryImage(small1.slug)} titleSize="24px" className="h-[260px] lg:h-full" />
+                        <CategoryCard href={`/catalog/${small1.slug}`} title={small1.name} img={getCategoryImage(small1)} titleSize="24px" className="h-[260px] lg:h-full" />
                     )}
                     {small2 && (
-                        <CategoryCard href={`/catalog/${small2.slug}`} title={small2.name} img={getCategoryImage(small2.slug)} titleSize="24px" className="h-[260px] lg:h-full" imgFill />
+                        <CategoryCard href={`/catalog/${small2.slug}`} title={small2.name} img={getCategoryImage(small2)} titleSize="24px" className="h-[260px] lg:h-full" imgFill />
                     )}
                 </div>
             </div>
             {big && (
-                <CategoryCard href={`/catalog/${big.slug}`} title={big.name} img={getCategoryImage(big.slug)} titleSize="32px" className="h-[400px] lg:h-full" imgFill />
+                <CategoryCard href={`/catalog/${big.slug}`} title={big.name} img={getCategoryImage(big)} titleSize="32px" className="h-[400px] lg:h-full" imgFill />
             )}
         </div>
     )
@@ -118,6 +128,13 @@ export default async function AllCatalog() {
 
     return (
         <div className="px-4 lg:px-0 lg:w-360 mx-auto mb-20 max-md:w-full">
+            {/* Breadcrumb */}
+            <div className="mb-4">
+                <Breadcrumb
+                    items={[{ name: 'Главная', href: '/' }, { name: 'Каталог' }]}
+                />
+            </div>
+
             <div className="flex flex-wrap gap-4 justify-between items-center mb-6 lg:mb-8">
                 <h2 className="text-[#222222] font-bold text-[32px] sm:text-[40px] lg:text-[50px]">Каталог</h2>
 
@@ -131,8 +148,8 @@ export default async function AllCatalog() {
             {/* 5-6: 2 ta yonma-yon */}
             {categories.length >= 5 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 mb-4 lg:mb-6">
-                    {cat4 && <CategoryCard href={`/catalog/${cat4.slug}`} title={cat4.name} img={getCategoryImage(cat4.slug)} titleSize="32px" className="h-[288px]" />}
-                    {cat5 && <CategoryCard href={`/catalog/${cat5.slug}`} title={cat5.name} img={getCategoryImage(cat5.slug)} titleSize="32px" className="h-[288px]" />}
+                    {cat4 && <CategoryCard href={`/catalog/${cat4.slug}`} title={cat4.name} img={getCategoryImage(cat4)} titleSize="32px" className="h-[288px]" />}
+                    {cat5 && <CategoryCard href={`/catalog/${cat5.slug}`} title={cat5.name} img={getCategoryImage(cat5)} titleSize="32px" className="h-[288px]" />}
                 </div>
             )}
 
@@ -145,7 +162,7 @@ export default async function AllCatalog() {
             {restCategories.length > 0 && (
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-20">
                     {restCategories.map((cat) => (
-                        <SmallCategoryCard key={cat.id} href={`/catalog/${cat.slug}`} title={cat.name} img={getCategoryImage(cat.slug)} />
+                        <SmallCategoryCard key={cat.id} href={`/catalog/${cat.slug}`} title={cat.name} img={getCategoryImage(cat)} />
                     ))}
                 </div>
             )}

@@ -2,89 +2,107 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 
-const BANNERS = [
-    {
-        id: 1,
-        title: 'IPHONE 17 PRO MAX',
-        subtitle: 'Новый уровень мощности, камеры и скорости.',
-        img: '/imgs/hero.png',
-        href: '/catalog',
-        cta: 'Смотреть каталог',
-        textColor: 'text-white',
-    },
-    {
-        id: 2,
-        title: 'MACBOOK AIR M4',
-        subtitle: 'Лёгкий, быстрый, бесшумный.',
-        img: '/imgs/hero.png',
-        href: '/catalog',
-        cta: 'Подробнее',
-        textColor: 'text-white',
-    },
-    {
-        id: 3,
-        title: 'APPLE WATCH ULTRA 3',
-        subtitle: 'Для тех, кто живёт на максимуме.',
-        img: '/imgs/hero.png',
-        href: '/catalog',
-        cta: 'Подробнее',
-        textColor: 'text-white',
-    },
-]
+const API = 'https://admin.geniusstorerf.ru/api'
+
+// Один слайд героя. Картинка, заголовок и описание приходят с бэкенда (/api/banner),
+// внешний вид — как у hero на странице сервиса.
+function HeroSlide({ banner, priority }) {
+    return (
+        <section className="relative overflow-hidden rounded-[20px] h-[460px] lg:h-[600px] bg-[#C47427]">
+            {banner.img_mobile && (
+                <Image
+                    src={banner.img_mobile}
+                    alt={banner.title || ''}
+                    fill
+                    priority={priority}
+                    unoptimized
+                    sizes="100vw"
+                    className="object-cover lg:hidden"
+                    quality={100}
+                />
+            )}
+            {banner.img_pc && (
+                <Image
+                    src={banner.img_pc}
+                    alt={banner.title || ''}
+                    fill
+                    priority={priority}
+                    unoptimized
+                    sizes="(max-width: 1024px) 100vw, 1440px"
+                    className="object-cover hidden lg:block"
+                    quality={100}
+                />
+            )}
+            <div className="relative z-10 h-full flex flex-col max-md:text-center md:justify-center p-6 sm:p-10 lg:p-16">
+                <h1 className="text-white font-semibold text-[26px] sm:text-[48px] lg:text-[64px] leading-tight mb-3">
+                    {banner.title}
+                </h1>
+                {banner.description && (
+                    <p className="text-white/90 text-base lg:text-2xl font-medium md:max-w-[732px]">
+                        {banner.description}
+                    </p>
+                )}
+                <Link
+                    href="/catalog"
+                    className="self-start max-md:w-full bg-white mt-6 max-md:mt-3 text-[#222222] font-semibold px-8 py-3.5 rounded-[20px] flex items-center justify-center hover:bg-[#D4A63A] transition-colors duration-200"
+                >
+                    <span className="text-base lg:text-lg font-semibold">
+                        Смотреть каталог
+                    </span>
+                </Link>
+            </div>
+        </section>
+    )
+}
 
 export default function Hero() {
+    const [banners, setBanners] = useState([])
+
+    useEffect(() => {
+        let cancelled = false
+        fetch(`${API}/banner`)
+            .then((res) => res.json())
+            .then((data) => {
+                if (cancelled) return
+                setBanners(Array.isArray(data) ? data : [])
+            })
+            .catch(() => {})
+        return () => {
+            cancelled = true
+        }
+    }, [])
+
     return (
         <div className="px-4 lg:px-0 lg:w-360 mx-auto my-6">
-            <Swiper
-                modules={[Pagination, Autoplay]}
-                loop
-                autoplay={{ delay: 6000, disableOnInteraction: false }}
-                pagination={{
-                    clickable: true,
-                    bulletClass: 'inline-block h-2.5 w-2.5 rounded-sm bg-white/60 mx-1 cursor-pointer transition-all duration-200',
-                    bulletActiveClass: '!w-10 !bg-[#D4A63A]',
-                }}
-                className="rounded-[20px] !overflow-hidden"
-            >
-                {BANNERS.map((b) => (
-                    <SwiperSlide key={b.id}>
-                        <div
-                            className="relative flex items-center bg-cover bg-center h-[420px] sm:h-[500px] lg:h-[600px] rounded-[20px]"
-                            style={{ backgroundImage: `url(${b.img})` }}
-                        >
-                            <div className="flex flex-col pl-6 lg:pl-10 max-w-[680px]">
-                                <h1
-                                    className={`text-[36px] sm:text-[48px] lg:text-[64px] font-semibold leading-[1.05] ${b.textColor}`}
-                                >
-                                    {b.title}
-                                </h1>
-                                <p className={`text-base sm:text-lg lg:text-[24px] mt-4 mb-6 ${b.textColor}`}>
-                                    {b.subtitle}
-                                </p>
-                                <Link
-                                    href={b.href}
-                                    className="bg-white w-[260px] lg:w-[300px] h-[52px] lg:h-[60px] rounded-[20px] text-[#222222] flex items-center justify-center hover:bg-[#D4A63A] transition-colors duration-200 group"
-                                >
-                                    <p className="text-base lg:text-lg font-semibold">{b.cta}</p>
-                                    <Image
-                                        src="/icons/arrow-narrow-right.svg"
-                                        alt=""
-                                        width={24}
-                                        height={24}
-                                        className="ml-4 transition-transform duration-200 group-hover:translate-x-1"
-                                    />
-                                </Link>
-                            </div>
-                        </div>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
+            {banners.length === 0 ? (
+                // Заглушка нужной высоты, пока баннеры грузятся (без прыжка верстки).
+                <div className="rounded-[20px] h-[460px] lg:h-[600px] bg-[#C47427]" />
+            ) : (
+                <Swiper
+                    modules={[Pagination, Autoplay]}
+                    loop={banners.length > 1}
+                    autoplay={{ delay: 6000, disableOnInteraction: false }}
+                    pagination={{
+                        clickable: true,
+                        bulletClass:
+                            'inline-block h-2.5 w-2.5 rounded-sm bg-white/60 mx-1 cursor-pointer transition-all duration-200',
+                        bulletActiveClass: '!w-10 !bg-[#D4A63A]',
+                    }}
+                    className="rounded-[20px] !overflow-hidden"
+                >
+                    {banners.map((b, i) => (
+                        <SwiperSlide key={b.id}>
+                            <HeroSlide banner={b} priority={i === 0} />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            )}
         </div>
     )
 }

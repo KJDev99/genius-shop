@@ -101,14 +101,14 @@ export default function MobileMenuDrawer({ open, onClose }) {
                 {/* Footer with phone + socials */}
                 <div className="px-6 pb-6 pt-4 border-t border-[#F4F4FA] flex items-center justify-between gap-3">
                     <a
-                        href="tel:+79692000330"
+                        href="tel:+79668615242"
                         className="text-[#222222] text-base font-semibold hover:text-[#D4A63A] transition-colors"
                     >
-                        +7 (969) 200-03-30
+                        +7 (966) 861-52-42
                     </a>
                     <div className="flex gap-2 shrink-0">
                         <a
-                            href="https://t.me/"
+                            href="https://t.me/genius_store_spb"
                             target="_blank"
                             rel="noreferrer"
                             className="bg-[#D4A63A] h-10 w-10 rounded-full flex items-center justify-center hover:brightness-95 transition"
@@ -117,7 +117,7 @@ export default function MobileMenuDrawer({ open, onClose }) {
                             <Image src="/icons/telegram.svg" alt="" width={16} height={16} />
                         </a>
                         <a
-                            href="https://vk.com/"
+                            href="https://vk.com/storegenius"
                             target="_blank"
                             rel="noreferrer"
                             className="bg-[#D4A63A] h-10 w-10 rounded-full flex items-center justify-center hover:brightness-95 transition"

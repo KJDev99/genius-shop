@@ -15,3 +15,30 @@
   scrollbar-width: thin;
   scrollbar-color: #D4A63A transparent;
 }
+
+/* Hide scrollbar but keep scrolling (horizontal tab rows, chip lists) */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Seamless infinite marquee (brands slider). Track is duplicated 2x and
+   moves exactly one set width (-50%), so the loop never jumps. */
+@keyframes brands-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-brands-marquee {
+  animation: brands-marquee 30s linear infinite;
+  will-change: transform;
+}
+.animate-brands-marquee:hover {
+  animation-play-state: paused;
+}

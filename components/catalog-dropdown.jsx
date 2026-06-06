@@ -121,8 +121,7 @@ export default function CatalogDropdown({ onClose }) {
                                         <Link
                                             href={`/product/${product.slug}`}
                                             onClick={onClose}
-                                            className={`block text-base transition-colors duration-150 hover:text-[#D4A63A] ${idx === 0 ? 'text-[#D4A63A] font-medium' : 'text-[#444444]'
-                                                }`}
+                                            className={`block text-base transition-colors duration-150 hover:text-[#D4A63A]`}
                                         >
                                             {product.title}
                                         </Link>

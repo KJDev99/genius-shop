@@ -133,7 +133,7 @@ export default function Footer() {
                             href="tel:+79668615242"
                             className="text-[24px] lg:text-[32px] font-bold mb-3 text-[#222222] hover:text-[#D4A63A] transition-colors duration-150"
                         >
-                            +7 (966)-861-52-42
+                            +7 (966) 861-52-42
                         </a>
                         <a
                             href="mailto:info@Geniusstorerf.ru"
@@ -148,7 +148,7 @@ export default function Footer() {
                         </p>
                         <div className="flex justify-center gap-x-6 mt-3">
                             <a
-                                href="https://t.me/"
+                                href="https://t.me/genius_store_spb"
                                 target="_blank"
                                 rel="noreferrer"
                                 className="bg-[#D4A63A] h-[62px] w-[62px] rounded-full text-white flex items-center justify-center hover:brightness-95 active:brightness-90 transition"
@@ -157,7 +157,7 @@ export default function Footer() {
                                 <Image src="/icons/telegram.svg" alt="" width={30} height={30} />
                             </a>
                             <a
-                                href="https://vk.com/"
+                                href="https://vk.com/storegenius"
                                 target="_blank"
                                 rel="noreferrer"
                                 className="bg-[#D4A63A] h-[62px] w-[62px] rounded-full text-white flex items-center justify-center hover:brightness-95 active:brightness-90 transition"
@@ -190,7 +190,7 @@ export default function Footer() {
                         href="tel:+79668615242"
                         className="text-[28px] font-bold mb-3 text-[#222222] hover:text-[#D4A63A] transition-colors duration-150"
                     >
-                        +7 (966)-861-52-42
+                        +7 (966) 861-52-42
                     </a>
                     <a
                         href="mailto:info@Geniusstorerf.ru"
@@ -206,7 +206,7 @@ export default function Footer() {
 
                     <div className="flex justify-center gap-3 mt-4">
                         <a
-                            href="https://t.me/"
+                            href="https://t.me/genius_store_spb"
                             target="_blank"
                             rel="noreferrer"
                             className="bg-[#D4A63A] h-[44px] w-[44px] rounded-full flex items-center justify-center hover:brightness-95 transition"
@@ -215,7 +215,7 @@ export default function Footer() {
                             <Image src="/icons/telegram.svg" alt="" width={18} height={18} />
                         </a>
                         <a
-                            href="https://vk.com/"
+                            href="https://vk.com/storegenius"
                             target="_blank"
                             rel="noreferrer"
                             className="bg-[#D4A63A] h-[44px] w-[44px] rounded-full flex items-center justify-center hover:brightness-95 transition"

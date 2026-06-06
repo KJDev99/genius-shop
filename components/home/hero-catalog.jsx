@@ -3,7 +3,10 @@ import Link from 'next/link'
 import React from 'react'
 import { getData } from '@/lib/getData'
 
-const CATEGORY_IMAGES = {
+// Backend media bazasi (icon maydoni shu yerdan ochiladi)
+const MEDIA_BASE = 'https://admin.geniusstorerf.ru/media/'
+
+const FALLBACK_IMAGES = {
     smartfony: '/imgs/phone.png',
     planshety: '/imgs/planshet.png',
     noutbuki: '/imgs/mac.png',
@@ -12,8 +15,14 @@ const CATEGORY_IMAGES = {
     dyson: '/imgs/dyson.png',
 }
 
-function getCategoryImage(slug) {
-    return CATEGORY_IMAGES[slug] || '/imgs/phone.png'
+// Backenddan kelgan icon'dan to'liq URL quradi; icon bo'lmasa lokal fallback.
+function getCategoryImage(cat) {
+    if (cat?.icon) {
+        return cat.icon.startsWith('http')
+            ? cat.icon
+            : MEDIA_BASE + cat.icon.replace(/^\/+/, '')
+    }
+    return FALLBACK_IMAGES[cat?.slug] || '/imgs/phone.png'
 }
 
 function CategoryCard({ href, title, img, titleSize = '32px', imgWidth = 355, imgHeight = 355, className = '', imgFill = false }) {
@@ -35,7 +44,7 @@ function CategoryCard({ href, title, img, titleSize = '32px', imgWidth = 355, im
                         alt={title}
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        className="object-contain p-5 lg:p-6 transition-transform duration-300 group-hover:scale-105"
                     />
                 ) : (
                     <Image
@@ -43,11 +52,62 @@ function CategoryCard({ href, title, img, titleSize = '32px', imgWidth = 355, im
                         alt={title}
                         width={imgWidth}
                         height={imgHeight}
-                        className="object-contain transition-transform duration-300 group-hover:scale-105"
+                        className="object-contain transition-transform duration-300 group-hover:scale-105 w-full h-full p-4 lg:w-auto lg:h-auto lg:p-0"
                     />
                 )}
             </div>
         </Link>
+    )
+}
+
+
+function PromoCard({ img, imgWidth, imgHeight, mobileImg, mobileWidth, mobileHeight, title, text, href }) {
+    return (
+        <div className="rounded-[20px] bg-white overflow-hidden h-auto lg:h-[500px] flex flex-col-reverse lg:flex-row items-center md:px-6 pt-3 lg:py-0 gap-6">
+            <div className="lg:contents flex items-center justify-center w-full">
+                {/* Mobile: alohida gorizontal rasm */}
+                <Image
+                    src={mobileImg}
+                    alt={title}
+                    width={mobileWidth}
+                    height={mobileHeight}
+                    quality={100}
+                    unoptimized
+                    className="lg:hidden object-contain w-auto h-auto max-w-full max-h-[150px]"
+                />
+                {/* Desktop: o'zgarmagan */}
+                <Image
+                    src={img}
+                    alt={title}
+                    width={imgWidth}
+                    height={imgHeight}
+                    quality={100}
+                    unoptimized
+                    className="hidden lg:block object-contain lg:w-auto lg:h-auto lg:max-h-full lg:shrink-0 lg:self-center"
+                />
+            </div>
+            <div className="flex flex-col justify-center items-center text-center grow">
+                <h2 className="mb-6 text-[#222222] text-[36px] lg:text-[50px] font-bold">
+                    {title}
+                </h2>
+                <p className="mb-6 text-base lg:text-xl text-[#444444] font-medium max-w-[300px]">
+                    {text}
+                </p>
+                <Link
+                    href={href}
+                    className="bg-[#D4A63A] w-50 max-md:w-full h-15 rounded-[20px] text-[#222222] flex items-center justify-center hover:brightness-95 active:brightness-90 transition group"
+                >
+                    <p className="text-lg font-medium">Подробнее</p>
+                    <Image
+                        src="/icons/arrow-narrow-right.svg"
+                        alt=""
+                        width={24}
+                        height={24}
+                        className="ml-2.5 transition-transform duration-200 group-hover:translate-x-1"
+                    />
+                </Link>
+            </div>
+        </div>
     )
 }
 
@@ -65,9 +125,9 @@ export default async function HeroCatalog() {
                 <h2 className="text-[#222222] font-bold text-[32px] sm:text-[40px] lg:text-[50px]">Каталог</h2>
                 <Link
                     href="/catalog"
-                    className="bg-[#D4A63A] px-6 h-12 lg:h-15 rounded-[20px] text-[#222222] flex items-center justify-center hover:brightness-95 active:brightness-90 transition group"
+                    className="bg-[#D4A63A] px-6 max-md:w-full h-12 lg:h-15 rounded-[20px] text-[#222222] flex items-center justify-center hover:brightness-95 active:brightness-90 transition group"
                 >
-                    <p className="text-base lg:text-lg font-semibold">Все категории</p>
+                    <p className="text-base lg:text-lg font-medium">Все категории</p>
                     <Image
                         src="/icons/arrow-narrow-right.svg"
                         alt=""
@@ -84,7 +144,7 @@ export default async function HeroCatalog() {
                     <CategoryCard
                         href={`/catalog/${cat0.slug}`}
                         title={cat0.name}
-                        img={getCategoryImage(cat0.slug)}
+                        img={getCategoryImage(cat0)}
                         titleSize="32px"
                         className="h-[400px] lg:h-full"
                         imgFill
@@ -96,7 +156,7 @@ export default async function HeroCatalog() {
                         <CategoryCard
                             href={`/catalog/${cat1.slug}`}
                             title={cat1.name}
-                            img={getCategoryImage(cat1.slug)}
+                            img={getCategoryImage(cat1)}
                             titleSize="32px"
                             className="h-[260px] lg:h-[288px] shrink-0"
                         />
@@ -106,7 +166,7 @@ export default async function HeroCatalog() {
                             <CategoryCard
                                 href={`/catalog/${cat2.slug}`}
                                 title={cat2.name}
-                                img={getCategoryImage(cat2.slug)}
+                                img={getCategoryImage(cat2)}
                                 titleSize="24px"
                                 className="h-[260px] lg:h-full"
                             />
@@ -115,7 +175,7 @@ export default async function HeroCatalog() {
                             <CategoryCard
                                 href={`/catalog/${cat3.slug}`}
                                 title={cat3.name}
-                                img={getCategoryImage(cat3.slug)}
+                                img={getCategoryImage(cat3)}
                                 titleSize="24px"
                                 className="h-[260px] lg:h-full"
                                 imgFill
@@ -131,7 +191,7 @@ export default async function HeroCatalog() {
                     <CategoryCard
                         href={`/catalog/${cat4.slug}`}
                         title={cat4.name}
-                        img={getCategoryImage(cat4.slug)}
+                        img={getCategoryImage(cat4)}
                         titleSize="32px"
                         className="h-[288px]"
                     />
@@ -140,7 +200,7 @@ export default async function HeroCatalog() {
                     <CategoryCard
                         href={`/catalog/${cat5.slug}`}
                         title={cat5.name}
-                        img={getCategoryImage(cat5.slug)}
+                        img={getCategoryImage(cat5)}
                         titleSize="32px"
                         className="h-[288px]"
                     />
@@ -149,51 +209,28 @@ export default async function HeroCatalog() {
 
             {/* Promo: Trade-in + Rassrochka */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-20">
-                <div className="rounded-[20px] bg-white overflow-hidden h-auto lg:h-[500px] flex flex-col lg:flex-row items-center px-6 py-10 lg:py-0 gap-6">
-                    <Image
-                        src="/imgs/tradein.png"
-                        alt="Trade-in"
-                        width={268}
-                        height={500}
-                        className="object-contain shrink-0"
-                    />
-                    <div className="flex flex-col justify-center items-center text-center grow">
-                        <h2 className="mb-6 text-[#222222] text-[36px] lg:text-[50px] font-bold">Trade-In</h2>
-                        <p className="mb-6 text-base lg:text-xl text-[#444444] font-medium max-w-[300px]">
-                            Обменяйте старый iPhone на новый по выгодной цене
-                        </p>
-                        <Link
-                            href="/trade-in"
-                            className="bg-[#D4A63A] w-50 h-15 rounded-[20px] text-[#222222] flex items-center justify-center hover:brightness-95 active:brightness-90 transition group"
-                        >
-                            <p className="text-lg font-semibold">Подробнее</p>
-                            <Image src="/icons/arrow-narrow-right.svg" alt="" width={24} height={24} className="ml-2.5 transition-transform duration-200 group-hover:translate-x-1" />
-                        </Link>
-                    </div>
-                </div>
-
-                <div className="rounded-[20px] bg-white overflow-hidden h-auto lg:h-[500px] flex flex-col lg:flex-row items-center px-6 py-10 gap-6">
-                    <Image
-                        src="/imgs/bolib.png"
-                        alt="Installments"
-                        width={307}
-                        height={415}
-                        className="object-contain shrink-0"
-                    />
-                    <div className="flex flex-col justify-center items-center text-center grow">
-                        <h2 className="mb-6 text-[#222222] text-[36px] lg:text-[50px] font-bold">Рассрочка</h2>
-                        <p className="mb-6 text-base lg:text-xl text-[#444444] font-medium max-w-[300px]">
-                            Без переплаты и первого взноса.
-                        </p>
-                        <Link
-                            href="/plan"
-                            className="bg-[#D4A63A] w-50 h-15 rounded-[20px] text-[#222222] flex items-center justify-center hover:brightness-95 active:brightness-90 transition group"
-                        >
-                            <p className="text-lg font-semibold">Подробнее</p>
-                            <Image src="/icons/arrow-narrow-right.svg" alt="" width={24} height={24} className="ml-2.5 transition-transform duration-200 group-hover:translate-x-1" />
-                        </Link>
-                    </div>
-                </div>
+                <PromoCard
+                    img="/imgs/tradein.png"
+                    imgWidth={268}
+                    imgHeight={500}
+                    mobileImg="/imgs/tradein-mobile.png"
+                    mobileWidth={296}
+                    mobileHeight={117}
+                    title="Trade-In"
+                    text="Обменяйте старый iPhone на новый по выгодной цене"
+                    href="/trade-in"
+                />
+                <PromoCard
+                    img="/imgs/bolib.png"
+                    imgWidth={307}
+                    imgHeight={415}
+                    mobileImg="/imgs/bolib-mobile.png"
+                    mobileWidth={276}
+                    mobileHeight={132}
+                    title="Рассрочка"
+                    text="Без переплаты и первого взноса."
+                    href="/plan"
+                />
             </div>
         </div>
     )

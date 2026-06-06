@@ -43,7 +43,7 @@ export default function HeroBest() {
                 </h2>
                 <Link
                     href="/catalog"
-                    className="bg-[#D4A63A] px-6 h-12 lg:h-15 rounded-[20px] text-[#222222] flex items-center justify-center hover:brightness-95 active:brightness-90 transition"
+                    className="bg-[#D4A63A] px-6 max-md:w-full h-12 lg:h-15 rounded-[20px] text-[#222222] flex items-center justify-center hover:brightness-95 active:brightness-90 transition"
                 >
                     <p className="text-base lg:text-lg font-semibold">Все товары</p>
                     <Image src="/icons/arrow-narrow-right.svg" alt="" width={24} height={24} className="ml-2.5" />

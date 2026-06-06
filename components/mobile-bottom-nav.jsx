@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
+import { useCartCount } from '@/lib/use-cart-count'
 
 const TABS = [
     {
@@ -82,6 +83,7 @@ const TABS = [
 
 export default function MobileBottomNav() {
     const pathname = usePathname()
+    const cartCount = useCartCount()
 
     return (
         <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#F4F4FA] z-40 pb-[env(safe-area-inset-bottom)]">
@@ -97,7 +99,14 @@ export default function MobileBottomNav() {
                                 href={tab.href}
                                 className="flex flex-col items-center gap-1 py-3 transition-colors duration-150"
                             >
-                                {tab.icon(active)}
+                                <span className="relative">
+                                    {tab.icon(active)}
+                                    {tab.href === '/basket' && cartCount > 0 && (
+                                        <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-[#D4A63A] text-white text-[10px] font-bold flex items-center justify-center leading-none">
+                                            {cartCount > 99 ? '99+' : cartCount}
+                                        </span>
+                                    )}
+                                </span>
                                 <span
                                     className={`text-xs transition-colors duration-150 ${active ? 'text-[#D4A63A] font-semibold' : 'text-[#888888]'
                                         }`}

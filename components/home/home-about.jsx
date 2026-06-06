@@ -6,8 +6,7 @@ export default function HomeAbout() {
     return (
         <div className="px-4 lg:px-0 lg:w-360 mx-auto mt-20">
             <div
-                className="rounded-[20px] bg-white flex items-center bg-cover bg-center h-auto lg:h-[734px] py-10 lg:py-0"
-                style={{ backgroundImage: 'url(/imgs/homeabout.png)' }}
+                className="rounded-[20px] bg-white flex items-center bg-cover bg-center h-auto lg:h-[734px] py-10 lg:py-0 bg-[url('/imgs/homeaboutmobile.png')] lg:bg-[url('/imgs/homeabout.png')]"
             >
                 <div className="flex flex-col items-end w-full px-4 lg:pr-10 gap-6">
                     <div className="lg:max-w-[638px] px-6 py-4 rounded-[20px] bg-white/10 backdrop-blur-md text-white">
@@ -17,7 +16,7 @@ export default function HomeAbout() {
                         </p>
                         <Link
                             href="/about"
-                            className="bg-white w-[228px] h-[56px] rounded-[20px] text-[#222222] flex items-center justify-center hover:bg-[#D4A63A] transition-colors duration-200 group"
+                            className="bg-white w-[228px] max-md:w-full h-[56px] rounded-[20px] text-[#222222] flex items-center justify-center hover:bg-[#D4A63A] transition-colors duration-200 group"
                         >
                             <p className="text-lg font-semibold">Подробнее</p>
                             <Image
@@ -36,7 +35,7 @@ export default function HomeAbout() {
                         </p>
                         <Link
                             href="/servics"
-                            className="bg-[#D4A63A] w-[228px] h-[56px] rounded-[20px] text-[#222222] flex items-center justify-center hover:brightness-95 active:brightness-90 transition group"
+                            className="bg-[#D4A63A] w-[228px] max-md:w-full h-[56px] rounded-[20px] text-[#222222] flex items-center justify-center hover:brightness-95 active:brightness-90 transition group"
                         >
                             <p className="text-lg font-semibold">Подробнее</p>
                             <Image

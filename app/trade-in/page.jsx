@@ -111,7 +111,7 @@ export default function TradeInPage() {
                                 <h3 className="text-[#222222] font-bold text-lg lg:text-xl">
                                     {s.title}
                                 </h3>
-                                <p className="text-[#888888] text-sm lg:text-base leading-[150%]">
+                                <p className="text-[#444444] text-sm lg:text-base leading-[150%]">
                                     {s.text}
                                 </p>
                             </div>
@@ -136,7 +136,7 @@ export default function TradeInPage() {
                                     'Samsung — смартфоны серии Galaxy',
                                 ]}
                             />
-                            <p className="text-[#888888] text-sm lg:text-base">
+                            <p className="text-[#444444] text-sm lg:text-base">
                                 Также возможна оценка устройств других брендов —
                                 условия уточняются индивидуально.
                             </p>
@@ -173,7 +173,7 @@ export default function TradeInPage() {
                                     'Год выпуска модели',
                                 ]}
                             />
-                            <p className="text-[#888888] text-sm lg:text-base">
+                            <p className="text-[#444444] text-sm lg:text-base">
                                 Оценка проводится по актуальным рыночным данным и
                                 результатам диагностики устройства.
                             </p>
@@ -192,7 +192,7 @@ export default function TradeInPage() {
                                     'Код разблокировки устройства',
                                 ]}
                             />
-                            <p className="text-[#888888] text-sm lg:text-base">
+                            <p className="text-[#444444] text-sm lg:text-base">
                                 Без кода доступа провести диагностику устройства
                                 невозможно.
                             </p>

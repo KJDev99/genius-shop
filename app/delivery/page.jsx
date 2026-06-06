@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Breadcrumb from '@/components/breadcrumb'
 import HomeConsultation from '@/components/home/home-consultation'
 
@@ -49,7 +49,7 @@ const METHODS = [
 ]
 
 const PAYMENT = {
-    intro: 'Выберите удобный способ оплаты заказа.',
+    intro: 'Мы предлагаем несколько удобных способов доставки и получения заказа.',
     groups: [
         {
             title: 'Оплата при получении',
@@ -72,6 +72,11 @@ const PAYMENT = {
             items: [
                 'Работаем с организациями и компаниями',
                 'Предоставляем все необходимые закрывающие документы',
+            ],
+        },
+        {
+            title: 'Рассрочка и частичная оплата',
+            items: [
                 'Возможна рассрочка через партнёрские банки',
                 'Доступен резерв товара по предоплате',
             ],
@@ -80,7 +85,8 @@ const PAYMENT = {
 }
 
 const TERMS = {
-    intro: 'Краткая информация о доставке и получении заказа.',
+    intro: 'Краткая информация о доставке и получении заказа',
+    subtitle: 'Информация о доставке',
     items: [
         'Доставка по городу: от 1 до 3 часов',
         'Доставка по России: 1–7 дней (в зависимости от региона и транспортной компании)',
@@ -107,6 +113,15 @@ const TABS = [
     { id: 'guarantee', label: 'Гарантия и безопасность' },
 ]
 
+// Заголовок внутри контента (по макету). У гарантии — «Гарантии» (мн. ч.),
+// в отличие от пункта меню «Гарантия и безопасность».
+const HEADINGS = {
+    methods: 'Способы доставки',
+    payment: 'Оплата',
+    terms: 'Условия и сроки',
+    guarantee: 'Гарантии и безопасность',
+}
+
 function Bullets({ items }) {
     return (
         <ul className="flex flex-col gap-2">
@@ -115,7 +130,7 @@ function Bullets({ items }) {
                     key={item}
                     className="text-[#444444] text-sm lg:text-base flex gap-2 leading-[150%]"
                 >
-                    <span className="text-[#D4A63A]">—</span>
+                    <span className="text-[#888888] leading-[150%]">•</span>
                     <span>{item}</span>
                 </li>
             ))}
@@ -125,71 +140,92 @@ function Bullets({ items }) {
 
 // Inner content for a tab (без внешней карточки — её добавляет обёртка).
 function TabContent({ id }) {
-    if (id === 'methods') {
-        return (
-            <div className="flex flex-col gap-6">
-                <p className="text-[#444444] text-base lg:text-lg">
-                    Мы предлагаем несколько удобных способов доставки и получения
-                    заказа.
-                </p>
-                {METHODS.map((m, indx) => (
-                    <div
-                        key={m.title}
-                        className="flex flex-col gap-2 border-b border-[#F4F4FA] pb-6 last:border-0 last:pb-0"
-                    >
-                        <h3 className="text-[#222222] font-semibold text-lg lg:text-xl">
-                            {indx + 1}. {m.title}
-                        </h3>
-                        <Bullets items={m.items} />
-                    </div>
-                ))}
-            </div>
-        )
-    }
-    if (id === 'payment') {
-        return (
-            <div className="flex flex-col gap-6">
-                <p className="text-[#444444] text-base lg:text-lg">{PAYMENT.intro}</p>
-                {PAYMENT.groups.map((g) => (
-                    <div key={g.title}>
-                        <h3 className="text-[#222222] font-semibold text-lg lg:text-xl mb-3">
-                            {g.title}
-                        </h3>
-                        <Bullets items={g.items} />
-                    </div>
-                ))}
-            </div>
-        )
-    }
-    if (id === 'terms') {
-        return (
-            <div>
-                <p className="text-[#444444] text-base lg:text-lg mb-6">
-                    {TERMS.intro}
-                </p>
-                <Bullets items={TERMS.items} />
-            </div>
-        )
-    }
-    if (id === 'guarantee') {
-        return (
-            <div>
-                <p className="text-[#444444] text-base lg:text-lg mb-6">
-                    {GUARANTEE.intro}
-                </p>
-                <h3 className="text-[#222222] font-semibold text-lg lg:text-xl mb-3">
-                    {GUARANTEE.subtitle}
-                </h3>
-                <Bullets items={GUARANTEE.items} />
-            </div>
-        )
-    }
-    return null
+    return (
+        <div>
+            {/* Заголовок раздела (по макету) */}
+            <h2 className="text-[#222222] font-bold text-2xl lg:text-[40px] leading-tight mb-3 lg:mb-4">
+                {HEADINGS[id]}
+            </h2>
+
+            {id === 'methods' && (
+                <div className="flex flex-col gap-6">
+                    <p className="text-[#444444] text-base lg:text-lg">
+                        Мы предлагаем несколько удобных способов доставки и получения
+                        заказа.
+                    </p>
+                    {METHODS.map((m, indx) => (
+                        <div
+                            key={m.title}
+                            className="flex flex-col gap-2 border-b border-[#F4F4FA] pb-6 last:border-0 last:pb-0"
+                        >
+                            <h3 className="text-[#222222] font-semibold text-lg lg:text-xl">
+                                {indx + 1}. {m.title}
+                            </h3>
+                            <Bullets items={m.items} />
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {id === 'payment' && (
+                <div className="flex flex-col gap-6">
+                    <p className="text-[#444444] text-base lg:text-lg">
+                        {PAYMENT.intro}
+                    </p>
+                    {PAYMENT.groups.map((g, indx) => (
+                        <div key={g.title} className="flex flex-col gap-2">
+                            <h3 className="text-[#222222] font-semibold text-lg lg:text-xl">
+                                {indx + 1}. {g.title}
+                            </h3>
+                            <Bullets items={g.items} />
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {id === 'terms' && (
+                <>
+                    <p className="text-[#444444] text-base lg:text-lg mb-6">
+                        {TERMS.intro}
+                    </p>
+                    <h3 className="text-[#222222] font-semibold text-lg lg:text-xl mb-3">
+                        {TERMS.subtitle}
+                    </h3>
+                    <Bullets items={TERMS.items} />
+                </>
+            )}
+
+            {id === 'guarantee' && (
+                <>
+                    <p className="text-[#444444] text-base lg:text-lg mb-6">
+                        {GUARANTEE.intro}
+                    </p>
+                    <h3 className="text-[#222222] font-semibold text-lg lg:text-xl mb-3">
+                        {GUARANTEE.subtitle}
+                    </h3>
+                    <Bullets items={GUARANTEE.items} />
+                </>
+            )}
+        </div>
+    )
 }
 
 export default function DeliveryPage() {
     const [activeTab, setActiveTab] = useState('methods') // desktop sidebar
-    const [mobileOpen, setMobileOpen] = useState('methods') // mobile accordion
+    const [mobileTab, setMobileTab] = useState('methods') // mobile selected tab
+    const [dropdownOpen, setDropdownOpen] = useState(false) // mobile dropdown
+    const dropdownRef = useRef(null)
+
+    // Close mobile dropdown on outside click
+    useEffect(() => {
+        function handleClick(e) {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                setDropdownOpen(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClick)
+        return () => document.removeEventListener('mousedown', handleClick)
+    }, [])
 
     return (
         <>
@@ -263,53 +299,61 @@ export default function DeliveryPage() {
                     </div>
                 </div>
 
-                {/* ── MOBILE: аккордеон (раскрывается по клику) ── */}
-                <div className="lg:hidden flex flex-col gap-3">
-                    {TABS.map((tab) => {
-                        const open = mobileOpen === tab.id
-                        return (
-                            <div
-                                key={tab.id}
-                                className="bg-white rounded-[20px] overflow-hidden"
+                {/* ── MOBILE: выпадающий список (выбор из 4) + контент ── */}
+                <div className="lg:hidden flex flex-col gap-4">
+                    {/* Dropdown selector */}
+                    <div className="relative" ref={dropdownRef}>
+                        <button
+                            type="button"
+                            onClick={() => setDropdownOpen((v) => !v)}
+                            className="w-full flex items-center justify-between gap-3 bg-white rounded-[20px] p-4 text-left"
+                        >
+                            <span className="font-semibold text-base text-[#222222]">
+                                {TABS.find((t) => t.id === mobileTab)?.label}
+                            </span>
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                className={`shrink-0 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''
+                                    }`}
                             >
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        setMobileOpen(open ? null : tab.id)
-                                    }
-                                    className="w-full flex items-center justify-between gap-3 p-4 text-left"
-                                >
-                                    <span
-                                        className={`font-semibold text-base ${open ? 'text-[#222222]' : 'text-[#444444]'
+                                <path
+                                    d="M5 7.5l5 5 5-5"
+                                    stroke="#888888"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                        </button>
+                        {dropdownOpen && (
+                            <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-[20px] shadow-[0_4px_15.8px_0_rgba(0,0,0,0.12)] py-2 z-20 overflow-hidden">
+                                {TABS.map((tab) => (
+                                    <button
+                                        key={tab.id}
+                                        type="button"
+                                        onClick={() => {
+                                            setMobileTab(tab.id)
+                                            setDropdownOpen(false)
+                                        }}
+                                        className={`w-full text-left px-4 py-3 text-base transition-colors duration-150 ${mobileTab === tab.id
+                                            ? 'text-[#D4A63A] font-semibold bg-[#F4F4FA]'
+                                            : 'text-[#444444] hover:bg-[#F4F4FA]'
                                             }`}
                                     >
                                         {tab.label}
-                                    </span>
-                                    <svg
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 20 20"
-                                        fill="none"
-                                        className={`shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''
-                                            }`}
-                                    >
-                                        <path
-                                            d="M5 7.5l5 5 5-5"
-                                            stroke="#888888"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                </button>
-                                {open && (
-                                    <div className="px-4 pb-5 pt-1">
-                                        <TabContent id={tab.id} />
-                                    </div>
-                                )}
+                                    </button>
+                                ))}
                             </div>
-                        )
-                    })}
+                        )}
+                    </div>
+
+                    {/* Selected tab content */}
+                    <div className="bg-white rounded-[20px] p-5">
+                        <TabContent id={mobileTab} />
+                    </div>
                 </div>
             </main>
 

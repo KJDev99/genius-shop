@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import CatalogDropdown from './catalog-dropdown'
 import SearchDropdown from './search-dropdown'
 import MobileMenuDrawer from './mobile-menu-drawer'
+import { useCartCount } from '@/lib/use-cart-count'
 
 const NAV_LINKS = [
     { name: 'О нас', href: '/about' },
@@ -28,6 +29,7 @@ export default function Navbar() {
     const wrapperRef = useRef(null)
     const searchInputRef = useRef(null)
     const mobileSearchInputRef = useRef(null)
+    const cartCount = useCartCount()
 
     const anyDesktopOpen = catalogOpen || searchOpen
 
@@ -94,7 +96,7 @@ export default function Navbar() {
 
             {/* Navbar wrapper */}
             <div
-                className="px-4 lg:px-0 lg:w-360 mx-auto my-4 lg:my-6 relative z-40 max-md:w-full"
+                className="px-4 lg:px-0 lg:w-360 mx-auto my-4 lg:my-6 sticky top-0 z-40 max-md:w-full"
                 ref={wrapperRef}
             >
                 <div className="p-4 lg:p-6 rounded-[20px] bg-white relative z-10">
@@ -220,10 +222,15 @@ export default function Navbar() {
                         </Link>
                         <Link
                             href="/basket"
-                            className="bg-[#D4A63A] w-[52px] h-[52px] rounded-[20px] flex items-center justify-center hover:brightness-95 active:brightness-90 transition"
+                            className="relative bg-[#D4A63A] w-[52px] h-[52px] rounded-[20px] flex items-center justify-center hover:brightness-95 active:brightness-90 transition"
                             aria-label="Cart"
                         >
                             <Image src="/icons/cart.svg" alt="" width={24} height={24} />
+                            {cartCount > 0 && (
+                                <span className="absolute -top-1.5 -right-1.5 min-w-[20px] size-6  px-1 rounded-full bg-[#222222] text-white text-sm font-bold flex items-center justify-center leading-none">
+                                    {cartCount > 99 ? '99+' : cartCount}
+                                </span>
+                            )}
                         </Link>
                     </div>
 
@@ -243,13 +250,13 @@ export default function Navbar() {
                         </ul>
                         <div className="flex items-center gap-x-4">
                             <a
-                                href="tel:+79692000330"
+                                href="tel:+79668615242"
                                 className="text-[#888888] text-sm hover:text-[#222222] transition-colors duration-150"
                             >
-                                +7 (969) 200-03-30
+                                +7 (966) 861-52-42
                             </a>
                             <a
-                                href="https://t.me/"
+                                href="https://t.me/genius_store_spb"
                                 target="_blank"
                                 rel="noreferrer"
                                 className="bg-[#D4A63A] h-6 w-6 rounded-full text-white flex items-center justify-center hover:brightness-95 transition"
@@ -258,7 +265,7 @@ export default function Navbar() {
                                 <Image src="/icons/telegram.svg" alt="" width={11} height={11} />
                             </a>
                             <a
-                                href="https://vk.com/"
+                                href="https://vk.com/storegenius"
                                 target="_blank"
                                 rel="noreferrer"
                                 className="bg-[#D4A63A] h-6 w-6 rounded-full text-white flex items-center justify-center hover:brightness-95 transition"

@@ -161,7 +161,7 @@ export default function GuaranteePage() {
                 </div>
 
                 {/* Как работает гарантия — шаги */}
-                <section className="mb-4 lg:mb-6">
+                <section className="bg-white rounded-[20px] p-6 lg:p-8 mb-4 lg:mb-6">
                     <h2 className="text-[#222222] font-bold text-[28px] sm:text-[36px] lg:text-[50px] mb-6 lg:mb-8">
                         Как работает гарантия
                     </h2>
@@ -169,7 +169,7 @@ export default function GuaranteePage() {
                         {STEPS.map((s) => (
                             <div
                                 key={s.num}
-                                className="bg-white rounded-[20px] p-6 flex flex-col gap-3"
+                                className="bg-[#F4F4FA] rounded-[20px] p-6 flex flex-col gap-3"
                             >
                                 <span className="text-[#D4A63A] font-bold text-[40px] lg:text-[48px] leading-none">
                                     {s.num}
