@@ -1,6 +1,9 @@
 import AllCatalog from '@/components/catalog/all-catalog'
 import HomeConsultation from '@/components/home/home-consultation'
 import React from 'react'
+import { pageMetadata } from '@/lib/seo'
+
+export const metadata = pageMetadata('catalog')
 
 export default function page() {
     return (

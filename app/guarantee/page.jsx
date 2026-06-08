@@ -2,6 +2,9 @@ import Image from 'next/image'
 import React from 'react'
 import Breadcrumb from '@/components/breadcrumb'
 import HomeConsultation from '@/components/home/home-consultation'
+import { pageMetadata } from '@/lib/seo'
+
+export const metadata = pageMetadata('guarantee')
 
 // ─── Hero media: разные картинки для мобилки и ПК (/public/guarantee) ───────────
 const HERO_MOBILE = '/guarantee/hero-mobile.png' // ← мобильный фон героя

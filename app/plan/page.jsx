@@ -2,6 +2,9 @@ import Image from 'next/image'
 import React from 'react'
 import Breadcrumb from '@/components/breadcrumb'
 import HomeConsultation from '@/components/home/home-consultation'
+import { pageMetadata } from '@/lib/seo'
+
+export const metadata = pageMetadata('plan')
 
 // ─── Media: положите файлы в /public/plan и при необходимости поменяйте имена ───
 // Hero: на мобилке одна картинка, на ПК — другая.

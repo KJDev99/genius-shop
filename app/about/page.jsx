@@ -4,6 +4,9 @@ import Breadcrumb from '@/components/breadcrumb'
 import Advantages from '@/components/advantages'
 import HomeConsultation from '@/components/home/home-consultation'
 import BrandsSlider from '@/components/about/brands-slider'
+import { pageMetadata } from '@/lib/seo'
+
+export const metadata = pageMetadata('about')
 
 // ─── Hero media: разные картинки для мобилки и ПК (/public/about) ───────────────
 const HERO_MOBILE = '/about/hero-mobile.png'

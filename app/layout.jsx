@@ -15,8 +15,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Genius Store",
-  description: "Genius Store — магазин оригинальной техники Apple",
+  metadataBase: new URL("https://geniusstorerf.ru"),
+  title: {
+    default: "Genius Store — магазин оригинальной техники Apple, Samsung, Dyson в СПб",
+    template: "%s",
+  },
+  description: "Genius Store — магазин оригинальной техники Apple, Samsung, Dyson в Санкт-Петербурге. Невский проспект, 32-34",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({ children }) {

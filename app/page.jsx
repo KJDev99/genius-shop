@@ -8,6 +8,9 @@ import HomeNews from '@/components/home/home-news'
 import HomeReiwvs from '@/components/home/home-reiwvs'
 import HomeVideo from '@/components/home/home-video'
 import React from 'react'
+import { pageMetadata } from '@/lib/seo'
+
+export const metadata = pageMetadata('home')
 
 export default function home() {
   return (

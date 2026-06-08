@@ -3,6 +3,9 @@ import React from 'react'
 import Breadcrumb from '@/components/breadcrumb'
 import HomeConsultation from '@/components/home/home-consultation'
 import RequestButton from '@/components/request-button'
+import { pageMetadata } from '@/lib/seo'
+
+export const metadata = pageMetadata('tradeIn')
 
 // ─── Hero media: разные картинки для мобилки и ПК (/public/trade-in) ────────────
 const HERO_MOBILE = '/trade-in/hero-mobile.png'

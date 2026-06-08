@@ -5,6 +5,9 @@ import Advantages from '@/components/advantages'
 import HomeConsultation from '@/components/home/home-consultation'
 import RequestButton from '@/components/request-button'
 import { IoCheckmark } from "react-icons/io5";
+import { pageMetadata } from '@/lib/seo'
+
+export const metadata = pageMetadata('service')
 
 // ─── Hero media: разные картинки для мобилки и ПК (/public/servics) ─────────────
 const HERO_MOBILE = '/servics/hero-mobile.png'
