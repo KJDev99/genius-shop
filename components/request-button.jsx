@@ -118,7 +118,7 @@ function RequestModal({ config, productTitle, onClose }) {
 
     return (
         <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/40 backdrop-blur-[4px] overflow-y-auto"
+            className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/40 backdrop-blur-[4px] overflow-y-auto"
             onClick={onClose}
         >
             <div
@@ -127,14 +127,14 @@ function RequestModal({ config, productTitle, onClose }) {
             >
                 <div className="p-5 lg:p-6">
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-5">
-                        <h2 className="text-[#222222] font-bold text-xl lg:text-2xl">
+                    <div className="flex items-center justify-center relative mb-5">
+                        <h2 className="text-[#222222] font-bold text-xl lg:text-2xl text-center">
                             {config.title}
                         </h2>
                         <button
                             type="button"
                             onClick={onClose}
-                            className="text-[#888888] hover:text-[#222222] transition-colors p-1 -mr-1"
+                            className="text-[#888888] hover:text-[#222222] transition-colors p-1 -mr-1 absolute -right-2 -top-2"
                             aria-label="Закрыть"
                         >
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -216,7 +216,7 @@ function RequestModal({ config, productTitle, onClose }) {
                                         className="mt-1 accent-[#D4A63A] w-4 h-4"
                                     />
                                     <span className="text-[#888888] text-xs leading-snug">
-                                        Я согласен на обработку персональных данных
+                                        Нажимая на кнопку «Отправить заявку», Вы принимаете условия Пользовательского соглашения и соглашаетесь с Политикой обработки персональных данных
                                     </span>
                                 </label>
                             )}

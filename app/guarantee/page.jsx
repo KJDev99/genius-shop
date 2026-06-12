@@ -123,7 +123,7 @@ export default function GuaranteePage() {
                         <h1 className="text-white font-semibold text-[26px] sm:text-[48px] lg:text-[64px] leading-tight mb-3">
                             Гарантия на всю технику
                         </h1>
-                        <p className="text-white/90 text-base lg:text-2xl font-medium ">
+                        <p className="text-white/90 text-base lg:text-2xl font-medium max-w-[620px]">
                             Только оригинальные устройства и официальная проверка перед
                             продажей.
                         </p>

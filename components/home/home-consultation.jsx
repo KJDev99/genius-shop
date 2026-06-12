@@ -6,7 +6,7 @@ export default function HomeConsultation() {
         <div className="px-4 lg:px-0 mt-6 mb-20 max-md:mb-10 ">
             <div
                 className="lg:w-360 mx-auto rounded-[20px] bg-white flex items-center bg-cover bg-center h-[320px] sm:h-[360px] lg:h-[400px]"
-                style={{ backgroundImage: 'url(/imgs/consultation.png)' }}
+                style={{ backgroundImage: 'url(/imgs/consultation.webp)' }}
             >
                 <div className="flex flex-col items-center w-full px-4 text-center">
                     <h2 className="text-[28px] sm:text-[40px] lg:text-[50px] font-semibold text-white leading-tight">

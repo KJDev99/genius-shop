@@ -108,20 +108,22 @@ export default function Footer() {
                                 className="mb-6"
                             />
                         </Link>
-                        <Link
-                            href="/privacy"
+                        <a
+                            target='_blank'
+                            href="/politika.docx"
                             className="mb-3 text-[#888888] text-sm hover:text-[#222222] transition-colors duration-150"
                         >
                             Политика конфиденциальности
-                        </Link>
-                        <Link
-                            href="/terms"
+                        </a>
+                        <a
+                            target='_blank'
+                            href="/term.docx"
                             className="mb-3 text-[#888888] text-sm hover:text-[#222222] transition-colors duration-150"
                         >
                             Пользовательское соглашение
-                        </Link>
+                        </a>
                         <p className="mb-3 text-[#888888] text-sm">© Все права защищены</p>
-                        <p className="mb-3 text-[#888888] text-sm">Разработано в Usertech</p>
+                        <a className="mb-3 text-[#888888] text-sm" target='_blank' href='https://usertech.ru/'>Разработано в Usertech</a>
                     </div>
 
                     <FooterColumn title="Каталог" links={CATALOG_LINKS} />
@@ -239,7 +241,7 @@ export default function Footer() {
                             Пользовательское соглашение
                         </Link>
                         <p>© Все права защищены</p>
-                        <p>Разработано в Usertech</p>
+                        <a target='_blank' href='https://usertech.ru/'>Разработано в Usertech</a>
                     </div>
                 </div>
             </div>

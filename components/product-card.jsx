@@ -200,7 +200,7 @@ export default function ProductCard({ product }) {
                 <button
                     type="button"
                     onClick={handleCart}
-                    className={`font-medium px-3 lg:px-4 py-2 rounded-[20px] flex items-center transition-all duration-200 shrink-0 ${inCart
+                    className={`font-medium px-3 lg:px-4 py-2 rounded-[16px] flex items-center transition-all duration-200 shrink-0 ${inCart
                         ? 'bg-[#222222] text-white hover:bg-[#333333]'
                         : 'bg-[#D4A63A] text-[#222222] hover:brightness-95 active:brightness-90'
                         } ${cartAnim ? 'scale-90' : 'scale-100'}`}

@@ -91,14 +91,14 @@ function ConsultationModal({ onClose }) {
             >
                 <div className="p-5 lg:p-6">
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-2">
-                        <h2 className="text-[#222222] font-bold text-xl lg:text-2xl">
+                    <div className="flex items-center justify-center mb-2 relative">
+                        <h2 className="text-[#222222] font-bold text-xl lg:text-2xl text-center">
                             Получить консультацию
                         </h2>
                         <button
                             type="button"
                             onClick={onClose}
-                            className="text-[#888888] hover:text-[#222222] transition-colors p-1 -mr-1"
+                            className="text-[#888888] hover:text-[#222222] transition-colors p-1 -mr-1 absolute -right-2 -top-2"
                             aria-label="Закрыть"
                         >
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">

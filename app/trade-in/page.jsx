@@ -80,7 +80,7 @@ export default function TradeInPage() {
                         sizes="(max-width: 1024px) 100vw, 1440px"
                         className="object-cover hidden lg:block"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-black/55 via-black/25 to-transparent" />
+                    {/* <div className="absolute inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-black/55 via-black/25 to-transparent" /> */}
                     <div className="relative z-10 h-full flex flex-col justify-center items-center p-6 sm:p-10 lg:p-16 max-w-[900px] mx-auto text-center ">
                         <h1 className="text-white font-bold text-[30px] sm:text-[40px] lg:text-[52px] leading-tight mb-3 ">
                             Обменяйте старый iPhone на новый по выгодной цене

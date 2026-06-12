@@ -6,7 +6,7 @@ export default function HomeAbout() {
     return (
         <div className="px-4 lg:px-0 lg:w-360 mx-auto mt-20">
             <div
-                className="rounded-[20px] bg-white flex items-center bg-cover bg-center h-auto lg:h-[734px] py-10 lg:py-0 bg-[url('/imgs/homeaboutmobile.png')] lg:bg-[url('/imgs/homeabout.png')]"
+                className="rounded-[20px] bg-white flex items-center bg-cover bg-center h-auto lg:h-[734px] py-10 lg:py-0 bg-[url('/imgs/homeaboutmobile.webp')] lg:bg-[url('/imgs/homeabout.webp')]"
             >
                 <div className="flex flex-col items-end w-full px-4 lg:pr-10 gap-6">
                     <div className="lg:max-w-[638px] px-6 py-4 rounded-[20px] bg-white/10 backdrop-blur-md text-white">

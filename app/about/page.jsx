@@ -56,13 +56,13 @@ export default function AboutPage() {
 
                 <div className=" lg:px-0 lg:w-360 mx-auto my-20 max-md:my-10">
                     <div
-                        className="rounded-[20px] bg-white flex items-center bg-cover bg-center h-auto lg:h-100 py-4 lg:py-0 bg-[url('/about/about-mobile.png')] lg:bg-[url('/about/about-pc.png')]"
+                        className="rounded-[20px]  bg-white flex items-center bg-cover bg-center h-auto lg:h-100 py-4 lg:py-0 bg-[url('/about/about-mobile.webp')] lg:bg-[url('/about/about-pc.webp')]"
                     >
                         <div className="flex flex-col items-start w-full px-4 lg:pl-6 gap-6">
-                            <div className="lg:max-w-[638px] px-6 py-4  rounded-[20px] bg-white/10 backdrop-blur-md text-white">
+                            <div className="lg:max-w-[638px] px-6 py-4  rounded-[20px] bg-white/10 backdrop-blur-md text-white border border-[rgba(255, 255, 255, 0.1)]">
                                 <h2 className="text-[32px] sm:text-[40px] lg:text-[50px] font-bold mb-6">Наша миссия</h2>
-                                <p className="text-base lg:text-lg font-medium leading-[120%]">
-                                    Мы делаем современные технологии доступными и понятными для каждого.
+                                <p className="text-base lg:text-[18px]  leading-[120%]">
+                                    Мы делаем современные технологии доступными и понятными для каждого. <br />
                                     Genius Store — это место, где можно приобрести оригинальную технику с гарантией, честными ценами и удобным сервисом.
                                     Мы стремимся создавать комфортный опыт покупки и помогать клиентам выбирать лучшие устройства для жизни и работы.
                                 </p>

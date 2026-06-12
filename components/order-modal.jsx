@@ -150,14 +150,14 @@ export default function OrderModal({ items = [], total = 0, onClose }) {
             >
                 <div className="p-5 lg:p-6">
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-5">
-                        <h2 className="text-[#222222] font-bold text-xl lg:text-2xl">
+                    <div className="flex items-center justify-center relative mb-5">
+                        <h2 className="text-[#222222] font-bold text-xl lg:text-2xl text-center">
                             Оформить заказ
                         </h2>
                         <button
                             type="button"
                             onClick={onClose}
-                            className="text-[#888888] hover:text-[#222222] transition-colors p-1 -mr-1"
+                            className="text-[#888888] hover:text-[#222222] transition-colors p-1 -mr-1 absolute -right-2 -top-2"
                             aria-label="Close"
                         >
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -199,145 +199,145 @@ export default function OrderModal({ items = [], total = 0, onClose }) {
                             </button>
                         </div>
                     ) : (
-                    <>
-                    {/* Order items */}
-                    <div className="mb-5">
-                        <h3 className="text-[#222222] font-semibold text-base lg:text-lg mb-3">
-                            Ваш заказ:
-                        </h3>
-                        <div className="flex flex-col gap-2">
-                            {items.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="flex items-center gap-3 p-2 rounded-[12px] bg-[#F4F4FA]"
-                                >
-                                    <div className="relative w-[48px] h-[48px] shrink-0 rounded-[8px] overflow-hidden bg-white">
-                                        <Image
-                                            src={item.img}
-                                            alt={item.name}
-                                            fill
-                                            sizes="48px"
-                                            className="object-contain"
-                                        />
-                                    </div>
-                                    <p className="grow text-[#222222] text-sm">
-                                        {item.name}
-                                    </p>
-                                    <span className="text-[#888888] text-sm">
-                                        {item.qty}
-                                    </span>
-                                    <span className="text-[#D4A63A] font-bold text-sm whitespace-nowrap">
-                                        {formatRub(item.price * item.qty)}
-                                    </span>
+                        <>
+                            {/* Order items */}
+                            <div className="mb-5">
+                                <h3 className="text-[#222222] font-semibold text-base lg:text-lg mb-3">
+                                    Ваш заказ:
+                                </h3>
+                                <div className="flex flex-col gap-2">
+                                    {items.map((item) => (
+                                        <div
+                                            key={item.id}
+                                            className="flex items-center gap-3 p-2 rounded-[12px] bg-[#F4F4FA]"
+                                        >
+                                            <div className="relative w-[48px] h-[48px] shrink-0 rounded-[8px] overflow-hidden bg-white">
+                                                <Image
+                                                    src={item.img}
+                                                    alt={item.name}
+                                                    fill
+                                                    sizes="48px"
+                                                    className="object-contain"
+                                                />
+                                            </div>
+                                            <p className="grow text-[#222222] text-sm">
+                                                {item.name}
+                                            </p>
+                                            <span className="text-[#888888] text-sm">
+                                                {item.qty}
+                                            </span>
+                                            <span className="text-[#D4A63A] font-bold text-sm whitespace-nowrap">
+                                                {formatRub(item.price * item.qty)}
+                                            </span>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Form */}
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                        <input
-                            type="text"
-                            required
-                            placeholder="Ваше имя"
-                            value={form.name}
-                            onChange={(e) => update('name', e.target.value)}
-                            className="w-full h-12 px-4 rounded-[12px] bg-[#F4F4FA] outline-none text-[#222222] placeholder:text-[#888888] focus:ring-2 focus:ring-[#D4A63A]/40 transition"
-                        />
-                        <input
-                            type="email"
-                            required
-                            placeholder="Ваша почта"
-                            value={form.email}
-                            onChange={(e) => update('email', e.target.value)}
-                            className="w-full h-12 px-4 rounded-[12px] bg-[#F4F4FA] outline-none text-[#222222] placeholder:text-[#888888] focus:ring-2 focus:ring-[#D4A63A]/40 transition"
-                        />
-                        <input
-                            type="tel"
-                            required
-                            inputMode="tel"
-                            placeholder="+7 (___) ___-__-__"
-                            value={form.phone}
-                            onChange={(e) =>
-                                update('phone', formatRuPhone(e.target.value))
-                            }
-                            className="w-full h-12 px-4 rounded-[12px] bg-[#F4F4FA] outline-none text-[#222222] placeholder:text-[#888888] focus:ring-2 focus:ring-[#D4A63A]/40 transition"
-                        />
-
-                        <div className="mt-2">
-                            <p className="text-[#222222] font-semibold text-sm lg:text-base mb-2">
-                                Способ получения
-                            </p>
-                            <div className="flex flex-col gap-1">
-                                <RadioOption
-                                    label="Доставка"
-                                    checked={form.method === 'delivery'}
-                                    onChange={() => update('method', 'delivery')}
-                                />
-                                <RadioOption
-                                    label="Самовывоз"
-                                    checked={form.method === 'pickup'}
-                                    onChange={() => update('method', 'pickup')}
-                                />
                             </div>
-                        </div>
 
-                        {form.method === 'delivery' && (
-                            <>
+                            {/* Form */}
+                            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
                                 <input
                                     type="text"
-                                    placeholder="Введите адрес..."
-                                    value={form.address}
-                                    onChange={(e) => update('address', e.target.value)}
+                                    required
+                                    placeholder="Ваше имя"
+                                    value={form.name}
+                                    onChange={(e) => update('name', e.target.value)}
                                     className="w-full h-12 px-4 rounded-[12px] bg-[#F4F4FA] outline-none text-[#222222] placeholder:text-[#888888] focus:ring-2 focus:ring-[#D4A63A]/40 transition"
                                 />
-                                <div className="grid grid-cols-3 gap-2">
-                                    <input
-                                        type="text"
-                                        placeholder="Квартира"
-                                        value={form.flat}
-                                        onChange={(e) => update('flat', e.target.value)}
-                                        className="w-full h-12 px-3 rounded-[12px] bg-[#F4F4FA] outline-none text-[#222222] placeholder:text-[#888888] text-sm focus:ring-2 focus:ring-[#D4A63A]/40 transition"
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Подъезд"
-                                        value={form.entrance}
-                                        onChange={(e) => update('entrance', e.target.value)}
-                                        className="w-full h-12 px-3 rounded-[12px] bg-[#F4F4FA] outline-none text-[#222222] placeholder:text-[#888888] text-sm focus:ring-2 focus:ring-[#D4A63A]/40 transition"
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Этаж"
-                                        value={form.floor}
-                                        onChange={(e) => update('floor', e.target.value)}
-                                        className="w-full h-12 px-3 rounded-[12px] bg-[#F4F4FA] outline-none text-[#222222] placeholder:text-[#888888] text-sm focus:ring-2 focus:ring-[#D4A63A]/40 transition"
-                                    />
+                                <input
+                                    type="email"
+                                    required
+                                    placeholder="Ваша почта"
+                                    value={form.email}
+                                    onChange={(e) => update('email', e.target.value)}
+                                    className="w-full h-12 px-4 rounded-[12px] bg-[#F4F4FA] outline-none text-[#222222] placeholder:text-[#888888] focus:ring-2 focus:ring-[#D4A63A]/40 transition"
+                                />
+                                <input
+                                    type="tel"
+                                    required
+                                    inputMode="tel"
+                                    placeholder="+7 (___) ___-__-__"
+                                    value={form.phone}
+                                    onChange={(e) =>
+                                        update('phone', formatRuPhone(e.target.value))
+                                    }
+                                    className="w-full h-12 px-4 rounded-[12px] bg-[#F4F4FA] outline-none text-[#222222] placeholder:text-[#888888] focus:ring-2 focus:ring-[#D4A63A]/40 transition"
+                                />
+
+                                <div className="mt-2">
+                                    <p className="text-[#222222] font-semibold text-sm lg:text-base mb-2">
+                                        Способ получения
+                                    </p>
+                                    <div className="flex flex-col gap-1">
+                                        <RadioOption
+                                            label="Доставка"
+                                            checked={form.method === 'delivery'}
+                                            onChange={() => update('method', 'delivery')}
+                                        />
+                                        <RadioOption
+                                            label="Самовывоз"
+                                            checked={form.method === 'pickup'}
+                                            onChange={() => update('method', 'pickup')}
+                                        />
+                                    </div>
                                 </div>
-                            </>
-                        )}
 
-                        {error && (
-                            <p className="text-red-500 text-sm text-center mt-1">
-                                {error}
-                            </p>
-                        )}
+                                {form.method === 'delivery' && (
+                                    <>
+                                        <input
+                                            type="text"
+                                            placeholder="Введите адрес..."
+                                            value={form.address}
+                                            onChange={(e) => update('address', e.target.value)}
+                                            className="w-full h-12 px-4 rounded-[12px] bg-[#F4F4FA] outline-none text-[#222222] placeholder:text-[#888888] focus:ring-2 focus:ring-[#D4A63A]/40 transition"
+                                        />
+                                        <div className="grid grid-cols-3 gap-2">
+                                            <input
+                                                type="text"
+                                                placeholder="Квартира"
+                                                value={form.flat}
+                                                onChange={(e) => update('flat', e.target.value)}
+                                                className="w-full h-12 px-3 rounded-[12px] bg-[#F4F4FA] outline-none text-[#222222] placeholder:text-[#888888] text-sm focus:ring-2 focus:ring-[#D4A63A]/40 transition"
+                                            />
+                                            <input
+                                                type="text"
+                                                placeholder="Подъезд"
+                                                value={form.entrance}
+                                                onChange={(e) => update('entrance', e.target.value)}
+                                                className="w-full h-12 px-3 rounded-[12px] bg-[#F4F4FA] outline-none text-[#222222] placeholder:text-[#888888] text-sm focus:ring-2 focus:ring-[#D4A63A]/40 transition"
+                                            />
+                                            <input
+                                                type="text"
+                                                placeholder="Этаж"
+                                                value={form.floor}
+                                                onChange={(e) => update('floor', e.target.value)}
+                                                className="w-full h-12 px-3 rounded-[12px] bg-[#F4F4FA] outline-none text-[#222222] placeholder:text-[#888888] text-sm focus:ring-2 focus:ring-[#D4A63A]/40 transition"
+                                            />
+                                        </div>
+                                    </>
+                                )}
 
-                        <button
-                            type="submit"
-                            disabled={submitting || items.length === 0}
-                            className="mt-3 w-full bg-[#D4A63A] text-[#222222] font-semibold text-base py-3.5 rounded-[20px] hover:brightness-95 active:brightness-90 disabled:opacity-50 disabled:cursor-not-allowed transition"
-                        >
-                            {submitting ? 'Оформляем…' : 'Оформить заказ'}
-                        </button>
+                                {error && (
+                                    <p className="text-red-500 text-sm text-center mt-1">
+                                        {error}
+                                    </p>
+                                )}
 
-                        <p className="text-[#888888] text-xs text-center mt-1">
-                            Отправляя данные через форму, вы соглашаетесь
-                            <br />
-                            с политикой обработки персональных данных
-                        </p>
-                    </form>
-                    </>
+                                <button
+                                    type="submit"
+                                    disabled={submitting || items.length === 0}
+                                    className="mt-3 w-full bg-[#D4A63A] text-[#222222] font-semibold text-base py-3.5 rounded-[20px] hover:brightness-95 active:brightness-90 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                                >
+                                    {submitting ? 'Оформляем…' : 'Оформить заказ'}
+                                </button>
+
+                                <p className="text-[#888888] text-xs text-center mt-1">
+                                    Отправляя данные через форму, вы соглашаетесь
+                                    <br />
+                                    с политикой обработки персональных данных
+                                </p>
+                            </form>
+                        </>
                     )}
                 </div>
             </div>
