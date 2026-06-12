@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 const API = 'https://admin.geniusstorerf.ru/api'
 
@@ -118,7 +119,7 @@ function RequestModal({ config, productTitle, onClose }) {
 
     return (
         <div
-            className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/40 backdrop-blur-[4px] overflow-y-auto"
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/40 backdrop-blur-[4px] overflow-y-auto"
             onClick={onClose}
         >
             <div
@@ -242,7 +243,13 @@ function RequestModal({ config, productTitle, onClose }) {
 
 export default function RequestButton({ type, label, className, productTitle }) {
     const [open, setOpen] = useState(false)
+    const [mounted, setMounted] = useState(false)
     const config = CONFIG[type]
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
     if (!config) return null
 
     return (
@@ -250,12 +257,13 @@ export default function RequestButton({ type, label, className, productTitle }) 
             <button type="button" onClick={() => setOpen(true)} className={className}>
                 {label}
             </button>
-            {open && (
+            {mounted && open && createPortal(
                 <RequestModal
                     config={config}
                     productTitle={productTitle}
                     onClose={() => setOpen(false)}
-                />
+                />,
+                document.body
             )}
         </>
     )
