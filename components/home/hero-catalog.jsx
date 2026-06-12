@@ -73,7 +73,7 @@ function PromoCard({ img, imgWidth, imgHeight, mobileImg, mobileWidth, mobileHei
                     height={mobileHeight}
                     quality={100}
                     unoptimized
-                    className="lg:hidden object-contain w-auto h-auto max-w-full max-h-[150px]"
+                    className="lg:hidden object-cover h-auto w-full "
                 />
                 {/* Desktop: o'zgarmagan */}
                 <Image

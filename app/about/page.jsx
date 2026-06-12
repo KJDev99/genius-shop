@@ -15,7 +15,7 @@ const HERO_DESKTOP = '/about/hero-desktop.png'
 export default function AboutPage() {
     return (
         <>
-            <main className="px-4 lg:px-0 lg:w-360 mx-auto mb-10 md:mb-20 ">
+            <main className="px-4 lg:px-0 lg:w-360 w-full mx-auto mb-10 md:mb-20 ">
                 <div className="mb-4">
                     <Breadcrumb
                         items={[{ name: 'Главная', href: '/' }, { name: 'О нас' }]}

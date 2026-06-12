@@ -106,6 +106,9 @@ export default function OrderModal({ items = [], total = 0, onClose }) {
         setError(null)
 
         const payload = {
+            fullName: form.name,
+            email: form.email,
+            phone: form.phone,
             products_list: items.map((i) => ({
                 product_id: i.variantId || i.productId,
                 quantity: i.qty,
@@ -116,7 +119,6 @@ export default function OrderModal({ items = [], total = 0, onClose }) {
             entrance: form.entrance,
             floor: form.floor,
         }
-
         try {
             const res = await fetch(`${API}/order`, {
                 method: 'POST',
