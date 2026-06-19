@@ -14,7 +14,8 @@
       "Bash(python -c ' *)",
       "PowerShell(npx eslint \"app/product/[slug]/page.jsx\" 2>&1)",
       "PowerShell(npx eslint \"app/product/[slug]/page.jsx\" 2>&1 | Select-String -Pattern \"set-state-in-effect|react-hooks|no-undef|is not defined|Parsing error\" | Select-Object -ExpandProperty Line | ForEach-Object { $_.Trim\\(\\) })",
-      "Bash(curl -s \"https://admin.geniusstorerf.ru/api/product/slug/apple-iphone-13?colorId=2&memoryId=1\")"
+      "Bash(curl -s \"https://admin.geniusstorerf.ru/api/product/slug/apple-iphone-13?colorId=2&memoryId=1\")",
+      "PowerShell(git push origin master 2>&1)"
     ],
     "additionalDirectories": [
       "\\tmp"
