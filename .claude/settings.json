@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:admin.geniusstorerf.ru)",
+      "Bash(curl -s https://admin.geniusstorerf.ru/docs/)",
+      "Bash(grep -oE '\"url\"[^,]*|SwaggerUIBundle\\\\\\({[^}]*|url:[^,]*')",
+      "Bash(curl -s https://admin.geniusstorerf.ru/schema/ -o /tmp/schema.yaml)",
+      "Bash(cp /tmp/schema.yaml e:/genius-shop/.schema_tmp.yaml; sed -n '2056,2215p' /tmp/schema.yaml)",
+      "Bash(awk 'f{print NR\": \"$0} /^  schemas:/{f=1}' /tmp/schema.yaml)",
+      "Bash(awk 'NR>=3202' /tmp/schema.yaml)",
+      "Bash(curl -s \"https://admin.geniusstorerf.ru/api/product/slug/apple-iphone-13\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('TOP KEYS:', list\\(d.keys\\(\\)\\)\\); print\\('has colors:', 'colors' in d\\); print\\('has specFields:', 'specFields' in d\\); print\\('has specifications:', 'specifications' in d\\); print\\('has selection:', 'selection' in d\\); print\\('has selectedVariant:', 'selectedVariant' in d\\); print\\('root images type:', type\\(d.get\\('images'\\)\\).__name__, len\\(d.get\\('images'\\) or []\\)\\)\")",
+      "Bash(curl -s \"https://admin.geniusstorerf.ru/api/product/slug/apple-iphone-13?colorId=13\")",
+      "Bash(python -c ' *)",
+      "PowerShell(npx eslint \"app/product/[slug]/page.jsx\" 2>&1)",
+      "PowerShell(npx eslint \"app/product/[slug]/page.jsx\" 2>&1 | Select-String -Pattern \"set-state-in-effect|react-hooks|no-undef|is not defined|Parsing error\" | Select-Object -ExpandProperty Line | ForEach-Object { $_.Trim\\(\\) })",
+      "Bash(curl -s \"https://admin.geniusstorerf.ru/api/product/slug/apple-iphone-13?colorId=2&memoryId=1\")"
+    ],
+    "additionalDirectories": [
+      "\\tmp"
+    ]
+  }
+}

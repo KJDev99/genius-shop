@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
 import 'swiper/css'
@@ -213,26 +213,17 @@ function ImageGallery({ images }) {
     )
 }
 
-function InfoCard({ product, selectedVariant, onSelectVariant }) {
-    const variants = useMemo(() => product.variants || [], [product.variants])
+function InfoCard({ product, onSelectColor, onSelectMemory, variantLoading }) {
+    const selectedVariant = product.selectedVariant
 
-    // Unique colors / memories across all variants
-    const colors = useMemo(
-        () =>
-            uniqueBy(
-                variants.filter((v) => v.color),
-                (v) => v.color.id
-            ).map((v) => v.color),
-        [variants]
-    )
-    const memories = useMemo(
-        () =>
-            uniqueBy(
-                variants.filter((v) => v.memory),
-                (v) => v.memory.id
-            ).map((v) => v.memory),
-        [variants]
-    )
+    // Color swatches come straight from the server (`colors[]`).
+    const colors = useMemo(() => product.colors || [], [product.colors])
+
+    // Memory options depend on the active color: `colors[active].memories[]`.
+    const memories = useMemo(() => {
+        const activeColor = colors.find((c) => c.id === selectedVariant?.colorId)
+        return activeColor?.memories || []
+    }, [colors, selectedVariant?.colorId])
 
     // SIM types available for the selected variant
     const sims = useMemo(() => {
@@ -277,20 +268,14 @@ function InfoCard({ product, selectedVariant, onSelectVariant }) {
         }
     }, [product.id, selectedVariant?.id])
 
-    // Pick a variant matching the chosen color (keep current memory if possible)
+    // Color / memory switching is resolved by the backend: the parent refetches
+    // the product with the chosen colorId / memoryId in the query, which returns
+    // the matching variant (images, price, specs all kept in sync).
     function selectColor(colorId) {
-        const match =
-            variants.find(
-                (v) => v.colorId === colorId && v.memoryId === selectedVariant?.memoryId
-            ) || variants.find((v) => v.colorId === colorId)
-        if (match) onSelectVariant(match)
+        if (colorId !== selectedVariant?.colorId) onSelectColor(colorId)
     }
     function selectMemory(memoryId) {
-        const match =
-            variants.find(
-                (v) => v.memoryId === memoryId && v.colorId === selectedVariant?.colorId
-            ) || variants.find((v) => v.memoryId === memoryId)
-        if (match) onSelectVariant(match)
+        if (memoryId !== selectedVariant?.memoryId) onSelectMemory(memoryId)
     }
 
     // Price for the selected SIM (falls back to variant base price)
@@ -320,7 +305,7 @@ function InfoCard({ product, selectedVariant, onSelectVariant }) {
             price,
             oldPrice: selectedVariant.oldPrice,
             discount: selectedVariant.discount,
-            image: selectedVariant.images?.[0]?.url || null,
+            image: product.images?.[0]?.url || null,
             memory: selectedVariant.memory?.name || null,
             color: selectedVariant.color?.name || null,
             colorHex: selectedVariant.color?.hex || null,
@@ -344,7 +329,7 @@ function InfoCard({ product, selectedVariant, onSelectVariant }) {
             title: product.title,
             slug: product.slug,
             price,
-            image: selectedVariant.images?.[0]?.url || null,
+            image: product.images?.[0]?.url || null,
         })
     }
 
@@ -370,8 +355,9 @@ function InfoCard({ product, selectedVariant, onSelectVariant }) {
                             <button
                                 key={c.id}
                                 type="button"
+                                disabled={variantLoading}
                                 onClick={() => selectColor(c.id)}
-                                className={`w-7 h-7 rounded-full ring-offset-2 transition-shadow duration-150 ${selectedVariant?.colorId === c.id
+                                className={`w-7 h-7 rounded-full ring-offset-2 transition-shadow duration-150 disabled:cursor-not-allowed ${selectedVariant?.colorId === c.id
                                     ? 'ring-2 ring-[#D4A63A] ring-offset-white'
                                     : 'ring-1 ring-[#D4D4D4]'
                                     }`}
@@ -391,10 +377,11 @@ function InfoCard({ product, selectedVariant, onSelectVariant }) {
                     <div className="flex flex-wrap gap-2">
                         {memories.map((m) => (
                             <button
-                                key={m.id}
+                                key={m.memoryId}
                                 type="button"
-                                onClick={() => selectMemory(m.id)}
-                                className={`px-4 py-1.5 rounded-[12px] text-sm font-medium border transition-colors duration-150 ${selectedVariant?.memoryId === m.id
+                                disabled={variantLoading}
+                                onClick={() => selectMemory(m.memoryId)}
+                                className={`px-4 py-1.5 rounded-[12px] text-sm font-medium border transition-colors duration-150 disabled:cursor-not-allowed ${selectedVariant?.memoryId === m.memoryId
                                     ? 'border-[#D4A63A] text-[#D4A63A] bg-white'
                                     : 'border-[#F4F4FA] text-[#444444] hover:border-[#D4A63A]/40'
                                     }`}
@@ -624,32 +611,15 @@ function TabDelivery() {
     )
 }
 
-// Build the spec table from real product + variant fields
-function buildSpecs(product, variant) {
-    const simName = variant?.simTypes?.find(
-        (s) => s.simTypeId === variant.simTypeId
-    )?.simType?.name
-    const rows = [
-        ['Бренд', product.brand?.name],
-        ['Цвет', variant?.color?.name],
-        ['Объем памяти', variant?.memory?.name],
-        ['Модификация', simName || variant?.simType?.name],
-        ['Состояние', product.condition?.name],
-        ['Серия', product.series],
-        ['Тип', product.type],
-        ['Класс', product.class],
-        ['Система', product.system],
-        ['Диагональ (дюйм)', product.diagonal],
-        ['Тип экрана', product.screenType],
-        ['Разрешение экрана', product.resolution],
-        ['Частота обновления экрана', product.refreshRate],
-        ['Плотность пикселей', product.density],
-        ['Яркость', product.brightness],
-        ['Стекло', product.glass],
-        ['Always-On Display', product.aod],
-        ['Артикул', product.article],
-    ]
-    return rows.filter(([, v]) => v != null && v !== '')
+// Build the spec table from the server-provided `specifications` array.
+// Only rows whose `key` is listed in `specFields` are shown (the backend
+// decides per category), plus `memory` and `color` are always included.
+function buildSpecs(product) {
+    const allowed = new Set([...(product.specFields || []), 'memory', 'color'])
+    return (product.specifications || [])
+        .filter((s) => allowed.has(s.key))
+        .map((s) => [s.label, s.value])
+        .filter(([, v]) => v != null && v !== '')
 }
 
 // === MAIN PAGE ===
@@ -659,46 +629,89 @@ export default function ProductPage() {
 
     const [product, setProduct] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [variantLoading, setVariantLoading] = useState(false)
     const [error, setError] = useState(null)
-    const [selectedVariant, setSelectedVariant] = useState(null)
     const [activeTab, setActiveTab] = useState('description')
+
+    // Guards against out-of-order responses when the user clicks quickly:
+    // only the latest request is allowed to update state.
+    const reqIdRef = useRef(0)
+
+    // Fetch the product card. Pass a selection (colorId / memoryId / simTypeId)
+    // and the backend resolves the matching variant — images, price, specs and
+    // `selectedVariant` all come back in sync. `initial` toggles the full-page
+    // skeleton; subsequent selection changes use the lighter `variantLoading`.
+    const load = useCallback(
+        async (selection, { initial = false } = {}) => {
+            const id = ++reqIdRef.current
+            if (initial) {
+                setLoading(true)
+                setError(null)
+            } else {
+                setVariantLoading(true)
+            }
+            try {
+                const q = new URLSearchParams()
+                if (selection?.colorId != null) q.set('colorId', String(selection.colorId))
+                if (selection?.memoryId != null) q.set('memoryId', String(selection.memoryId))
+                if (selection?.simTypeId) q.set('simTypeId', selection.simTypeId)
+                const qs = q.toString()
+                const res = await fetch(
+                    `${API}/product/slug/${slug}${qs ? `?${qs}` : ''}`
+                )
+                if (!res.ok) throw new Error('not found')
+                const data = await res.json()
+                if (reqIdRef.current === id) setProduct(data)
+            } catch (e) {
+                // Keep the current product on a failed selection refetch; only the
+                // initial load surfaces a blocking error.
+                if (reqIdRef.current === id && initial) {
+                    setError('Не удалось загрузить товар.')
+                }
+            } finally {
+                if (reqIdRef.current === id) {
+                    if (initial) setLoading(false)
+                    else setVariantLoading(false)
+                }
+            }
+        },
+        [slug]
+    )
 
     useEffect(() => {
         if (!slug) return
-        let cancelled = false
-        async function load() {
-            setLoading(true)
-            setError(null)
-            try {
-                const res = await fetch(`${API}/product/slug/${slug}`)
-                if (!res.ok) throw new Error('not found')
-                const data = await res.json()
-                if (cancelled) return
-                setProduct(data)
-                const variants = data.variants || []
-                setSelectedVariant(
-                    variants.find((v) => v.isAvailable) || variants[0] || null
-                )
-            } catch (e) {
-                if (!cancelled) setError('Не удалось загрузить товар.')
-            } finally {
-                if (!cancelled) setLoading(false)
-            }
-        }
-        load()
-        return () => {
-            cancelled = true
-        }
-    }, [slug])
+        load(null, { initial: true })
+    }, [slug, load])
 
+    // Switch color: keep the current memory if the new color offers it,
+    // otherwise fall back to that color's first memory. SIM is reset (the
+    // backend picks the variant's default).
+    const handleSelectColor = useCallback(
+        (colorId) => {
+            const cur = product?.selectedVariant
+            const color = (product?.colors || []).find((c) => c.id === colorId)
+            const memoryId = color?.memories?.some((m) => m.memoryId === cur?.memoryId)
+                ? cur.memoryId
+                : color?.memories?.[0]?.memoryId ?? null
+            load({ colorId, memoryId, simTypeId: null })
+        },
+        [product, load]
+    )
+
+    const handleSelectMemory = useCallback(
+        (memoryId) => {
+            const cur = product?.selectedVariant
+            load({ colorId: cur?.colorId ?? null, memoryId, simTypeId: null })
+        },
+        [product, load]
+    )
+
+    const selectedVariant = product?.selectedVariant || null
     const images = useMemo(
-        () => selectedVariant?.images?.map((img) => img.url) || [],
-        [selectedVariant]
+        () => (product?.images || []).map((img) => img.url),
+        [product]
     )
-    const specs = useMemo(
-        () => (product ? buildSpecs(product, selectedVariant) : []),
-        [product, selectedVariant]
-    )
+    const specs = useMemo(() => (product ? buildSpecs(product) : []), [product])
 
     // ── Loading ──
     if (loading) {
@@ -759,15 +772,16 @@ export default function ProductPage() {
                     <ImageGallery key={selectedVariant?.id} images={images} />
                     <InfoCard
                         product={product}
-                        selectedVariant={selectedVariant}
-                        onSelectVariant={setSelectedVariant}
+                        onSelectColor={handleSelectColor}
+                        onSelectMemory={handleSelectMemory}
+                        variantLoading={variantLoading}
                     />
                 </div>
 
                 {/* Tabs section */}
                 <div className="bg-white rounded-[20px] p-4 lg:p-8 ">
                     {/* Tab buttons (horizontal scroll on mobile) */}
-                    <div className="flex gap-2 mb-6 overflow-x-scroll pb-1  w-full min-w-0">
+                    <div className="flex gap-2 mb-6 max-md:overflow-x-scroll pb-1  w-full min-w-0">
                         {TABS.map((tab) => (
                             <button
                                 key={tab.id}
