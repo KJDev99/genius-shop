@@ -10,7 +10,7 @@ export default function HomeAbout() {
             >
                 <div className="flex flex-col items-end w-full px-4 lg:pr-10 gap-6">
                     <div className="lg:max-w-[638px] px-6 py-4 rounded-[20px] bg-white/10 backdrop-blur-md text-white">
-                        <h2 className="text-[32px] sm:text-[40px] lg:text-[50px] font-bold mb-6">О компании</h2>
+                        <h2 className="text-[30px] max-md:mb-3  sm:text-[40px] lg:text-[50px] font-bold mb-6">О компании</h2>
                         <p className="text-base lg:text-lg font-medium mb-6">
                             Genius Store — магазин оригинальной техники Apple. Мы предлагаем только проверенные устройства: iPhone, AirPods, Apple Watch и другую технику Apple. Каждое устройство проходит диагностику перед продажей, поэтому вы получаете полностью исправную и качественную технику.
                         </p>
@@ -29,7 +29,7 @@ export default function HomeAbout() {
                         </Link>
                     </div>
                     <div className="lg:max-w-[638px] px-6 py-4 rounded-[20px] bg-white text-black">
-                        <h2 className="text-[28px] sm:text-[40px] lg:text-[50px] font-bold mb-6 text-nowrap">Сервис и гарантия</h2>
+                        <h2 className="text-[26px] max-md:mb-3 sm:text-[40px] lg:text-[50px] font-bold mb-6">Сервис и гарантия</h2>
                         <p className="text-base lg:text-lg font-medium mb-6">
                             Мы не только продаём технику, но и занимаемся её ремонтом. Наш специалист может приехать к вам в удобное время и место, чтобы забрать устройство.
                         </p>

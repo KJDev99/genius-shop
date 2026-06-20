@@ -29,7 +29,7 @@ function phoneDigits(value) {
 const CONFIG = {
     repair: {
         title: 'Заявка на ремонт',
-        endpoint: '/api/product/repair-request',
+        endpoint: '/product/repair-request',
         privacy: true,
         fields: [
             { key: 'model', label: 'Модель устройства', placeholder: 'Например, iPhone 14 Pro', required: true },
@@ -47,7 +47,7 @@ const CONFIG = {
     },
     tradein: {
         title: 'Заявка Trade-in',
-        endpoint: '/api/product/trade-in-request',
+        endpoint: '/product/trade-in-request',
         privacy: false,
         fields: [
             { key: 'oldDevice', label: 'Ваше устройство', placeholder: 'Например, iPhone 12 / 128 ГБ', required: true },
