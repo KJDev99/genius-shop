@@ -503,23 +503,81 @@ function TabDescription({ text }) {
     )
 }
 
-function TabSpecs({ specs }) {
+function TabSpecs({ groups }) {
+    const [showAll, setShowAll] = useState(false)
+
+    if (!groups.length) {
+        return (
+            <div>
+                <h2 className="text-[#222222] font-bold text-[24px] lg:text-[28px] mb-4">
+                    Характеристики
+                </h2>
+                <p className="text-[#888888] text-base">Характеристики появятся позже.</p>
+            </div>
+        )
+    }
+
+    // Collapsed by default: show the first couple of groups, reveal the rest
+    // behind "Показать все характеристики".
+    const COLLAPSED_GROUPS = 2
+    const hasMore = groups.length > COLLAPSED_GROUPS
+    const visibleGroups = showAll ? groups : groups.slice(0, COLLAPSED_GROUPS)
+
     return (
         <div>
             <h2 className="text-[#222222] font-bold text-[24px] lg:text-[28px] mb-4">
-                Характеристика
+                Характеристики
             </h2>
+
             <div className="flex flex-col">
-                {specs.map(([key, value]) => (
+                {visibleGroups.map((group) => (
                     <div
-                        key={key}
-                        className="grid grid-cols-2 gap-4 py-3 border-b border-[#F4F4FA] last:border-b-0"
+                        key={group.id}
+                        className="grid grid-cols-1 lg:grid-cols-[minmax(160px,240px)_1fr] gap-1 lg:gap-10 py-3 lg:py-4"
                     >
-                        <div className="min-w-0 break-words text-[#888888] text-sm lg:text-base">{key}</div>
-                        <div className="min-w-0 break-words text-[#222222] text-sm lg:text-base">{value}</div>
+                        <h3 className="text-[#222222] font-bold text-base lg:text-lg mb-1 lg:mb-0 lg:pt-3">
+                            {group.title}
+                        </h3>
+                        <div className="flex flex-col">
+                            {group.items.map((item, i) => (
+                                <div
+                                    key={`${group.id}-${i}`}
+                                    className="grid grid-cols-1 sm:grid-cols-2 gap-0.5 sm:gap-4 py-3 border-b border-[#F4F4FA]"
+                                >
+                                    <span className="min-w-0 break-words text-[#888888] text-sm lg:text-base">
+                                        {item.label}
+                                    </span>
+                                    {item.values.length > 1 ? (
+                                        <ul className="min-w-0 flex flex-col gap-1 text-[#222222] text-sm lg:text-base list-disc pl-4 marker:text-[#D4A63A]">
+                                            {item.values.map((v, j) => (
+                                                <li key={j} className="break-words">
+                                                    {v}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <span className="min-w-0 break-words text-[#222222] text-sm lg:text-base">
+                                            {item.values[0]}
+                                        </span>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 ))}
             </div>
+
+            {hasMore && (
+                <div className="flex justify-center mt-6">
+                    <button
+                        type="button"
+                        onClick={() => setShowAll((v) => !v)}
+                        className="px-6 py-3 rounded-[16px] bg-[#F4F4FA] text-[#222222] font-semibold hover:bg-[#ECECF4] active:scale-95 transition"
+                    >
+                        {showAll ? 'Скрыть характеристики' : 'Показать все характеристики'}
+                    </button>
+                </div>
+            )}
         </div>
     )
 }
@@ -611,15 +669,42 @@ function TabDelivery() {
     )
 }
 
-// Build the spec table from the server-provided `specifications` array.
-// Only rows whose `key` is listed in `specFields` are shown (the backend
-// decides per category), plus `memory` and `color` are always included.
-function buildSpecs(product) {
-    const allowed = new Set([...(product.specFields || []), 'memory', 'color'])
-    return (product.specifications || [])
-        .filter((s) => allowed.has(s.key))
-        .map((s) => [s.label, s.value])
+// Build grouped specifications for the table.
+//   1. "Основные характеристики" — curated per-variant essentials; only fields
+//      that actually exist are kept, so it adapts to any product / category.
+//   2. The server-provided `characteristicGroups` (Процессор, Корпус, Дисплей…),
+//      where each item's `values` may hold one value or several (bullet list).
+function buildSpecGroups(product, variant) {
+    const groups = []
+
+    const mainItems = [
+        ['Модель', product.model?.name || product.title],
+        ['Память', variant?.memory?.name],
+        ['Цвет', variant?.color?.name],
+        ['SIM-карта', variant?.simType?.name],
+        ['Операционная система', product.system],
+        ['Состояние', product.condition?.name],
+    ]
         .filter(([, v]) => v != null && v !== '')
+        .map(([label, v]) => ({ label, values: [String(v)] }))
+
+    if (mainItems.length) {
+        groups.push({ id: 'main', title: 'Основные характеристики', items: mainItems })
+    }
+
+    for (const g of product.characteristicGroups || []) {
+        const items = (g.items || [])
+            .map((it) => ({
+                label: it.label,
+                values: (it.values || []).filter((v) => v != null && v !== ''),
+            }))
+            .filter((it) => it.label && it.values.length > 0)
+        if (items.length) {
+            groups.push({ id: g.id, title: g.title, items })
+        }
+    }
+
+    return groups
 }
 
 // === MAIN PAGE ===
@@ -711,7 +796,10 @@ export default function ProductPage() {
         () => (product?.images || []).map((img) => img.url),
         [product]
     )
-    const specs = useMemo(() => (product ? buildSpecs(product) : []), [product])
+    const specGroups = useMemo(
+        () => (product ? buildSpecGroups(product, selectedVariant) : []),
+        [product, selectedVariant]
+    )
 
     // ── Loading ──
     if (loading) {
@@ -802,7 +890,7 @@ export default function ProductPage() {
                         {activeTab === 'description' && (
                             <TabDescription text={product.description} />
                         )}
-                        {activeTab === 'specs' && <TabSpecs specs={specs} />}
+                        {activeTab === 'specs' && <TabSpecs groups={specGroups} />}
                         {activeTab === 'payment' && <TabPayment />}
                         {activeTab === 'delivery' && <TabDelivery />}
                     </div>
